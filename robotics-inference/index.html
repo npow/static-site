@@ -33,7 +33,7 @@
 </style>
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
-  mermaid.initialize({ startOnLoad: true, theme: "base", securityLevel: "loose", flowchart: { htmlLabels: true, curve: "basis" } });
+  mermaid.initialize({ startOnLoad: true, theme: "base", securityLevel: "loose", flowchart: { htmlLabels: true, curve: "basis", useMaxWidth: false } });
 </script>
 </head>
 <body>
@@ -102,7 +102,7 @@ flowchart TB
 
   <section>
     <h2>4 · Tree A — where should the thinking layer run? ("is the opportunity real?")</h2>
-    <div class="note"><b>About A1 (maturity):</b> a robot program's stage — bootstrapping, piloting, or scaling — only sets a <i>starting bias</i>: early stages lean cloud, scaling earns the right to move onboard. The full thresholds and the re-evaluation triggers that move a placement over time live in the appendix (§9).</div>
+    <div class="note"><b>How to read this:</b> diamonds are decisions, and every diamond's branches lead to a <i>different</i> next step. The two purple boxes (A3.5, A6) are <b>not</b> forks — they're determinants/menus that set parameters used downstream, so the path passes straight through them. <b>A1 (maturity, §9)</b> only sets a starting bias: early stages lean cloud, scaling earns the right to move onboard. <b>A2.5</b> is asked only when connectivity is inadequate — it forks on whether you can install it.</div>
     <pre class="mermaid">
 flowchart TB
   classDef q fill:#c6dcff,stroke:#305bab,color:#0a2a5e
@@ -112,15 +112,15 @@ flowchart TB
   classDef onb fill:#ffc6c6,stroke:#8a0606,color:#3a0000
   classDef term fill:#f1d6ff,stroke:#7d3c98,color:#2e1065
 
-  A1{"A1 · Lifecycle stage? (maturity sets the bias)"}:::q
+  A1{"A1 · Lifecycle stage? (maturity, §9)"}:::q
   A2{"A2 · Hard regulatory / data bar?"}:::q
-  A25{"A2.5 · Can private-5G / wired be provisioned at the site?"}:::q
-  A3{"A3 · Connectivity p99: RTT ≤50 ms · jitter ≤20 ms · uplink ≥10 Mbps · loss under 0.1%?"}:::q
-  A35{"A3.5 · Action-decoder family (determinant → feeds A4 + A5)"}:::det
+  A25{"A2.5 · Is that inadequate connectivity improvable here?"}:::q
+  A3{"A3 · Connectivity p99 reliable? RTT ≤50 ms · jitter ≤20 ms · uplink ≥10 Mbps · loss under 0.1%"}:::q
+  A35["A3.5 · Decoder family — determinant, not a fork: sets A4 chunk size + A5 quantizability (families in §8)"]:::det
   A4{"A4 · Dropped chunk bounded by an onboard safe-fallback?"}:::q
   A4H{"A4.H · Certified onboard abort policy for link loss?"}:::q
   A5{"A5 · Compute fit: FP16 ≤ onboard VRAM AND ≥ control rate within 40–130 W?"}:::q
-  A6{"A6 · Placement tier: on-prem-edge / near-edge-MEC / far-cloud / hybrid"}:::q
+  A6["A6 · Offload tier — menu, not a fork: on-prem-edge / near-edge-MEC / far-cloud / hybrid (all → security gate)"]:::det
   ASEC{"A6.SEC · Homogeneous fleet: signed commands + per-robot authz + onboard kill-switch?"}:::q
   AS{"A6.S · Permanent or transitional?"}:::q
   PON["ONBOARD"]:::onb
@@ -128,29 +128,25 @@ flowchart TB
   HCOL["HYBRID-COLLAPSED → onboard-or-nothing"]:::term
   SECB["SECURITY-BLOCKED → force onboard"]:::term
   MIT["CLOUD/EDGE + blast-radius mitigation (rate-limit · canary · anomaly-stop)"]:::hybrid
+  PROV["Provision private-5G / wired (capex, T5) → connectivity now reliable"]:::hybrid
   PERM["CLOUD / EDGE placement — PERMANENT"]:::cloud
   TRANS["CLOUD / EDGE placement — TRANSITIONAL → §5 capture"]:::cloud
   TELE["TRANSITIONAL-TELEOP — human-in-loop bridge"]:::hybrid
 
   A1 -->|"Bootstrapping (under 10 units)"| TELE
-  A1 -->|"Pilot (1–50 units) — run as-is"| A2
-  A1 -->|"Scaled (over 50 units) — bias onboard / build-in-house"| A2
-  A2 -->|"Must-process-locally (FDA in-loop, some biometric)"| PON
-  A2 -->|"Remedy: localization→in-region · ITAR→access-controlled · anonymize on-device"| A25
-  A2 -->|"None / soft"| A25
-  A25 -->|"Fixed-site (provisionable — capex/ROI)"| A3
-  A25 -->|"Partially provisionable (zone-dependent)"| A3
-  A25 -->|"Mobile / outdoor (not provisionable → bias onboard)"| A3
+  A1 -->|"Piloting or scaled (scaling biases onboard / build-in-house, §9)"| A2
+  A2 -->|"Must process locally (FDA in-loop, some biometric)"| PON
+  A2 -->|"None / soft, or satisfiable by remedy (remedies in §8)"| A3
   A3 -->|"Reliable (wired / private-5G URLLC)"| A35
   A3 -->|"Intermittent (p99 fails / coverage holes)"| A4H
-  A3 -->|"None / ≤4G (RTT 30–70 ms)"| A5
-  A35 -->|"Autoregressive (RT-2, OpenVLA) — coarse chunks, INT4-friendly"| A4
-  A35 -->|"Flow / diffusion (π0, GR00T, Helix) — fine chunks, hard to quantize"| A4
-  A35 -->|"Discrete-diffusion — chunkable, AR-like quant"| A4
+  A3 -->|"None / inadequate (≤4G, RTT 30–70 ms)"| A25
+  A25 -->|"Yes — fixed site, can install private-5G / CBRS"| PROV
+  A25 -->|"No — mobile / outdoor"| A5
+  PROV --> A35
+  A35 --> A4
   A4 -->|"No — fails dangerous on drop"| PON
   A4 -->|"Yes — safe pause / human absorbs"| A4H
-  A4H -->|"Certified (watchdog ≤1 cycle, Cat-3 PL-d)"| A5
-  A4H -->|"Uncertified (force-limited regimes only)"| A5
+  A4H -->|"Yes — certified abort (Cat-3 PL-d), or force-limited only"| A5
   A4H -->|"None"| HCOL
   A5 -->|"Full FP16 fits onboard"| PON
   A5 -->|"Fits only after INT4/INT8"| PQO
@@ -188,7 +184,7 @@ flowchart TB
   B1 -->|"No (BYO runtime)"| BX{"BX · Is serving a CORE differentiator, or commodity context?"}:::q
   BX -->|"Core (it IS your moat)"| LBUILD["BUILD in-house — fund/hire the team; owner captures"]:::no
   BX -->|"Context (undifferentiated)"| B2{"B2 · Free OSS / NVIDIA already hits the control rate?"}:::q
-  B2 -->|"Yes (≈free to adopt)"| L2["DIY on free OSS — $0 to serving"]:::no
+  B2 -->|"Yes (free license; you self-operate)"| L2["DIY on free OSS — $0 license, but you still pay infra + ops + people to run + maintain it (real TCO, not free)"]:::no
   B2 -->|"No (real perf gap)"| BE{"BE · All-in BUILD cost (hire+build+maintain) vs all-in BUY, at scale × duration?"}:::q
   BE -->|"Build cheaper (large, sustained scale)"| L6["BUILD / internalize — hire with the buy budget"]:::no
   BE -->|"Buy cheaper (sub-scale / speed / won't own it)"| B5{"B5 · Must self-host, or is managed SaaS OK?"}:::q
@@ -205,7 +201,7 @@ flowchart TB
   click L4b href "https://tryreflex.ai/" _blank
   click L1 href "https://sereact.ai/" _blank
     </pre>
-    <div class="note">Cross-links: at <b>scaling</b> (§9), BE tips to build-in-house and B5 to self-host; the A2.5 private-5G-vs-onboard-silicon capex trade feeds BE; a fleet-security finding (trigger T10, §9) routes placement onboard, secondarily shifting capture in-house. <b>Net:</b> only ~1 in 5 cloud-viable placements reach a genuine independent-vendor leaf (L4b + L5); the rest go bundled / build / $0-OSS / commodity-cloud / RaaS.</div>
+    <div class="note">Cross-links: at <b>scaling</b> (§9), BE tips to build-in-house and B5 to self-host; the A2.5 private-5G-vs-onboard-silicon capex trade feeds BE; a fleet-security finding (trigger T10, §9) routes placement onboard, secondarily shifting capture in-house. <b>Net:</b> only ~1 in 5 cloud-viable placements reach a genuine independent-vendor leaf (L4b + L5); the rest go bundled / build / self-run-OSS / commodity-cloud / RaaS.</div>
   </section>
 
   <section>
@@ -274,11 +270,12 @@ flowchart TB
         <tr><td><b>Three inference layers</b></td><td>Fast control (reflex) 50–1000 Hz, sub-50 ms, no buffer → onboard. Thinking layer (planning/perception) 1–10 Hz, tolerates +200–300 ms via action-chunking → cloud-eligible. Training/fleet-learning → cloud.</td><td><a href="https://arxiv.org/abs/2506.07339" target="_blank">RTC</a></td></tr>
         <tr><td><b>A1 maturity / A6.S sunset</b></td><td>Stage by program: bootstrapping (under ~10 units) / pilot (10–100) / scaled (over 100). Every leaf is transitional with re-eval triggers (T1–T12) except scaled or fixed-by-law. Full tables in §9.</td><td>§9</td></tr>
         <tr><td><b>A2 hard bar (by remedy)</b></td><td>ITAR → access-controlled US region; localization (PIPL ≥1M → CAC) → in-region/sovereign cloud; biometric (BIPA $1k/$5k, GDPR Art.9) → onboard or on-device anonymize; FDA in-loop → change-control; only must-process-locally → onboard.</td><td><a href="https://www.preveil.com/blog/how-the-end-to-end-encryption-carveout-is-reshaping-itar-compliance/" target="_blank">ITAR</a> · <a href="https://www.loc.gov/item/global-legal-monitor/2022-12-12/china-measures-of-security-assessment-for-cross-border-data-transfer-take-effect/" target="_blank">PIPL</a></td></tr>
-        <tr><td><b>A2.5 connectivity-as-capex</b></td><td>Fixed sites can <i>provision</i> private-5G/CBRS (small warehouse $50–100K; base station $100–200K) → A3 becomes an ROI choice; mobile/outdoor takes connectivity as given → A3 is a hard constraint.</td><td>§9 (T5)</td></tr>
+        <tr><td><b>A2.5 connectivity improvable?</b></td><td>Asked only when A3 connectivity is inadequate. Fixed sites can <i>provision</i> private-5G/CBRS (small warehouse $50–100K; base station $100–200K) to reach reliable → continue down the cloud/hybrid path; mobile/outdoor can't → the model must fit onboard (A5).</td><td>§9 (T5)</td></tr>
         <tr><td><b>A3 connectivity (4-dim)</b></td><td>Reliable = p99 RTT ≤50 ms · jitter ≤20 ms · uplink ≥10 Mbps (3-cam stream ≈ 2–10 Mbps) · loss under 0.1% → wired / private-5G (URLLC sub-1 ms, 99.999%). Intermittent = p99 fails. None = ≤4G (30–70 ms).</td><td><a href="https://www.5gamericas.org/wp-content/uploads/2019/07/5G_Americas_URLLLC_White_Paper_Final__updateJW.pdf" target="_blank">URLLC</a></td></tr>
         <tr><td><b>A3.5 model family</b></td><td>Autoregressive (RT-2, OpenVLA): coarse chunks, INT4-friendly. Flow/diffusion (π0, GR00T, Helix): fine chunks at 50–200 Hz, quantize only via QuantVLA/QVLA. Discrete-diffusion: chunkable, AR-like quant (most onboard-friendly).</td><td><a href="https://arxiv.org/abs/2506.07339" target="_blank">RTC</a></td></tr>
         <tr><td><b>A4.H HYBRID failover</b></td><td>HYBRID stands only if a certified onboard abort policy exists (watchdog ≤1 control cycle @50–200 Hz → Cat-3 PL-d monitored stop); uncertified → power-&-force-limited regimes only; none → HYBRID collapses to onboard-or-nothing.</td><td>ISO 13849 / TS 15066</td></tr>
         <tr><td><b>A5 compute fit</b></td><td>Memory ≈ params × 2 B (FP16) / × 0.5 B (INT4): 3B ≈ 6/1.5 GB, 7B ≈ 14/3.5 GB. Full-onboard = FP16 ≤ VRAM (Orin 32–64 / Thor 128 GB) AND ≥ control rate (Thor ~19 Hz on 3B; H100 ~162) within 40–130 W. Else quantized-onboard or offload.</td><td><a href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-thor/" target="_blank">Thor</a> · <a href="https://arxiv.org/abs/2602.18397" target="_blank">VLA-Perf</a></td></tr>
+        <tr><td><b>A6 offload tiers</b></td><td>Menu of off-robot placements (a parameter, not a fork): on-prem-edge (sub-ms, no WAN) · near-edge / MEC (~10–14 ms) · far-cloud (lowest $/GPU but data egress + sovereignty) · hybrid (cloud thinking layer / onboard fast control). All proceed to the A6.SEC fleet-security gate.</td><td>ETSI MEC</td></tr>
         <tr><td><b>A6.SEC fleet security</b></td><td>A homogeneous fleet on a shared cloud command path is a blast radius (one compromised endpoint → whole fleet). Requires signed commands + per-robot authz + onboard kill-switch; partial → mitigation only; none → security-blocked onboard.</td><td>§9 (T10)</td></tr>
         <tr><td><b>Build vs buy (Tree B: BX · BE)</b></td><td>Not "do they have a team" — a team is buyable. BX: core differentiator (build) vs commodity context (buy). BE: all-in build (hire + build + maintain) vs all-in buy at scale × duration; build wins above the ~70–80% util crossover (graduation), buy wins sub-scale / for speed.</td><td><a href="https://www.spheron.network/blog/llm-inference-on-premise-vs-cloud/" target="_blank">build-vs-rent</a></td></tr>
       </tbody>
