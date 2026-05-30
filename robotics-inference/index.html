@@ -8,12 +8,15 @@
   :root { color-scheme: light; }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 30px 36px 80px; background: #f6f7f9; color: #1b1d22; }
   h1 { font-size: 24px; margin: 0 0 4px; }
-  .sub { color: #6b7280; margin: 0 0 8px; font-size: 14px; }
+  .sub { color: #374151; margin: 0 0 8px; font-size: 14px; }
   .hint { color: #2563eb; margin: 0 0 26px; font-size: 13px; }
   section { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 18px 22px; margin: 0 0 22px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
   h2 { font-size: 16px; margin: 0 0 6px; color: #111827; }
   .note { font-size: 13px; color: #4b5563; margin: 0 0 12px; }
   .note ul, .note ol { margin: 6px 0 0; padding-left: 20px; } .note li { margin: 3px 0; }
+  .callout { background:#eef5ff; border:1px solid #c6dcff; border-radius:10px; padding:14px 16px; font-size:14px; line-height:1.55; color:#1b1d22; }
+  .callout p { margin: 0 0 10px; } .callout p:last-child { margin: 0; }
+  .verdict { background:#e7faef; border:1px solid #adf0c7; border-radius:10px; padding:14px 16px; margin:0 0 14px; font-size:14px; line-height:1.55; }
   .mermaid { overflow-x: auto; }
   .mermaid .clickable { cursor: pointer; }
   table { border-collapse: collapse; width: 100%; font-size: 12px; }
@@ -35,42 +38,71 @@
 </head>
 <body>
   <h1>Robotics Cloud-Inference — Market Map</h1>
-  <p class="sub">May 2026 · evaluated per inference layer (fast control · thinking layer · training), with a maturity gate, a placement tree, and a separate capture (business) tree</p>
-  <p class="hint">🔗 nodes, terms, and companies link to source. The fast-control reflex loop is always onboard; this map is about the heavy <b>thinking layer</b> (planning/perception/VLA) and where its value is captured.</p>
+  <p class="sub">May 2026 · Should someone build a "fal for robotics"? A go / no-go map of where robot AI runs and whether an independent company can sell it.</p>
+  <p class="hint">🔗 nodes, terms, and companies link to source. Read §1–§3 for the answer; §4–§6 are the reasoning; §7–§9 are reference.</p>
 
   <section>
-    <h2>0 · Maturity gate — sets a bias before the trees, and every leaf is transitional</h2>
-    <div class="note">Classify the <b>program</b> (not the robot) into one stage; it biases the placement tree but never overrides a hard safety/regulatory gate. You can't skip stages — bootstrapping generates the data flywheel that earns graduation.</div>
+    <h2>1 · Start here</h2>
+    <div class="callout">
+      <p>This map answers one question: <b>should someone build a cloud service that runs the AI "thinking" for robots — and can an independent company actually make money selling it?</b></p>
+      <p>Every robot runs AI in three places. <b>Fast control</b> (reflexes, balance) always runs on the robot itself — it can't wait for a network. <b>Training</b> the AI always runs in the cloud. In between sits the <b>thinking layer</b> (planning, perception, deciding what to do next) — the one piece that can run either on the robot or in the cloud. This whole map is about that middle layer.</p>
+      <p><b>Bottom line:</b> the cloud demand is real and broad, but a defensible independent business is narrow — about <b>1 in 5</b> cases. The likely winners own both the AI and the robots.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>2 · The three layers — read this first</h2>
+    <div class="note">Nothing below makes sense until you can tell these three apart. Only the middle one is up for grabs.</div>
     <table>
-      <thead><tr><th>Stage</th><th>Quantified signal (2026)</th><th>Bias</th></tr></thead>
+      <thead><tr><th style="width:22%">Layer</th><th style="width:24%">Where it runs</th><th style="width:54%">What it does / why it runs there</th></tr></thead>
       <tbody>
-        <tr><td class="p"><b>M1 Bootstrapping</b> — human is the product, robot is the data rig</td><td>autonomous completion under 80–90%; mean-time-between-interventions under one 8-hr shift; under 10–20 units (typ 1–5); 1 site; pre-revenue/paid-pilot</td><td>teleop / hybrid / cloud + data flywheel; capture = full-RaaS or bundled-lab; do <b>not</b> build serving in-house</td></tr>
-        <tr><td class="p"><b>M2 Piloting</b> — proven at one site, prove it generalizes</td><td>completion ≥90–95%; MTBI ≥ one shift→days; 10–100 units, 2–10 sites; serving util under 50% / under 40 GPU-hr/wk; SLAs exist</td><td><b>none</b> — run the placement + capture trees exactly as written</td></tr>
-        <tr><td class="p"><b>M3 Scaling</b> — proven + high sustained volume</td><td>over 100–1,000+ homogeneous units, ≥10 sites, own-manufacture at line rate (RoboFab 10K/yr, BotQ 12K/yr, Amazon ~750K–1M); serving util ≥50–60% / over 6 GPU-hr/day; break-even ~13–18 mo</td><td>onboard / quantized-onboard + build-in-house (graduation)</td></tr>
-      </tbody>
-    </table>
-    <div class="note" style="margin-top:12px"><b>Re-evaluation triggers</b> — every leaf is <code>(verdict, trigger, sunset-owner)</code>; a fired trigger opens a migration, keeping the old leaf as certified fallback until the new one passes the same safety/reg gates:</div>
-    <table>
-      <thead><tr><th>#</th><th>Trigger</th><th>Effect</th></tr></thead>
-      <tbody>
-        <tr><td>T1</td><td>GPU $/hr crosses ±25% (B200 ~$2.12/hr; H100 ~$1.03–3.12; AWS H200 +15% Jan-26)</td><td>far-cloud ↔ on-prem-edge / generic-cloud ↔ build</td></tr>
-        <tr><td>T2</td><td>model distilled below the onboard-memory line (fits Thor 128 GB at NVFP4 ≥ rate; Shallow-π 2×, SnapFlow 1-step)</td><td>cloud/hybrid → quantized-onboard / onboard</td></tr>
-        <tr><td>T3</td><td>vendor ships an action-head runtime (JetPack 7.1 + TensorRT Edge-LLM on Thor)</td><td>→ onboard; de-moats the serving vendor</td></tr>
-        <tr><td>T4</td><td>fleet crosses build-vs-rent utilization (≥50–60% / over 6 GPU-hr/day; ~13–18 mo break-even)</td><td>generic-cloud / RaaS → build-in-house</td></tr>
-        <tr><td>T5</td><td>connectivity provisioned (private-5G/CBRS: small warehouse $50–100K; base station $100–200K)</td><td>onboard → hybrid / MEC / on-prem-edge</td></tr>
-        <tr><td>T6</td><td>certified failover/abort policy lands</td><td>unlocks the HYBRID leaf (else it stays collapsed)</td></tr>
-        <tr><td>T7</td><td>model family changes (AR Pi0-FAST vs flow π0 2–5 Hz → ~50 Hz via Real-Time Chunking)</td><td>re-pick A4 chunkability + A5 quantizability</td></tr>
-        <tr><td>T8</td><td>autonomy crosses the human-bridge threshold (completion ≥90–95%)</td><td>stage M1 → M2</td></tr>
-        <tr><td>T9</td><td>fleet homogeneity + count cross the in-house bar (over 100–1,000 units / ≥10 sites)</td><td>stage M2 → M3</td></tr>
-        <tr><td>T10</td><td>fleet-correlated blast-radius incident/audit (one endpoint commands the whole fleet)</td><td>far-cloud → onboard kill-switch + signed commands</td></tr>
-        <tr><td>T11</td><td>vendor/licensing economics shift (per-robot license × fleet &gt; in-house; or free-OSS becomes good-enough)</td><td>licensed/bundled → build-in-house or DIY-free-OSS</td></tr>
-        <tr><td>T12</td><td>retrain cadence slows (weekly → quarterly; stable checkpoint)</td><td>precondition that enables baking an onboard binary</td></tr>
+        <tr><td><b>Fast control</b> <span class="co">(reflexes, balance · 50–1000 Hz)</span></td><td class="n">On the robot — <b>always</b></td><td>Closes the loop in under 50 ms with no buffer. A dropped packet at 200 Hz is a fall or a collision, so it can never depend on a network.</td></tr>
+        <tr><td><b>Thinking layer</b> <span class="co">(planning, perception, next move · 1–10 Hz)</span></td><td class="p">On the robot <b>or</b> in the cloud ← <b>this whole map</b></td><td>Tolerates an extra ~200–300 ms by deciding several moves at once (<a href="https://arxiv.org/abs/2506.07339" target="_blank">action-chunking</a>), so it's the one piece that can move off the robot. Where it should run is Tree A (§4); whether you can sell it is Tree B (§5).</td></tr>
+        <tr><td><b>Training</b> <span class="co">(learning from fleet data)</span></td><td class="y">In the cloud — <b>always</b></td><td>Offline, compute-heavy, no real-time constraint. Already a clear cloud workload; not the contested ground.</td></tr>
       </tbody>
     </table>
   </section>
 
   <section>
-    <h2>1 · Tree A — Placement of the thinking layer (six former caveats now real nodes)</h2>
+    <h2>3 · Bottom-line verdict &amp; leader watchlist</h2>
+    <div class="verdict">
+      <b>Verdict.</b> The cloud opportunity is <b>real and broad</b> — across most segments the thinking layer and training both pull work off the robot. But an <b>independent, defensible business</b> selling that serving is <b>narrow</b>: only <b>~1 in 5</b> cloud-viable placements reach a "buy a VLA-serving vendor with a moat" outcome (Tree B, §5). The rest is captured by model labs (bundled), built in-house once a fleet scales, done for free on open-source, or absorbed into full robots-as-a-service. The companies positioned to win are the <b>vertically-integrated model + fleet owners</b> (Physical Intelligence, Skild, Figure, Sereact). <b>Today every KILL signal below is true and no GO signal has appeared.</b>
+    </div>
+    <div class="note">Two KILL signals, explained in plain English:
+      <ul>
+        <li><b>"Value routes to chip + open-source + model lab":</b> the margin pools elsewhere — NVIDIA monetizes silicon and gives serving away to sell it; open-source (LeRobot/openpi) makes the software $0; the model lab monetizes weights + data flywheel and bundles or open-sources the serving tricks. A serving middleman is sandwiched at commodity margins → absorbed.</li>
+        <li><b>"The right move (be the model + fleet lab) is $1B+ gated":</b> the defensible play (own the model + data flywheel + fleet) needs frontier training compute + hundreds of millions in teleoperation data (~$118–340/hr) + fleet ownership + scarce talent + years of pre-revenue burn. Comps: PI ~$11B, Skild ~$14B, Figure ~$39B, FieldAI $405M, Rhoda $450M — the entry ticket is a $0.4–1.4B round, not a serving seed.</li>
+      </ul>
+    </div>
+    <pre class="mermaid">
+flowchart TB
+  L["Leader signals"]:::neutral
+  L --> GO
+  L --> KILL
+  subgraph GO["GO — going first is justified if these appear (not true yet)"]
+    G1["Serving deals with DATA RIGHTS attached  ★ master signal"]:::win
+    G2["Learned-policy cert regime + you take liability"]:::win
+    G3["Interface standard fragments off NVIDIA / HF"]:::win
+    G4["Inference 15-20%+ of robot opex + multi-vendor fleet ~100k"]:::win
+    G5["You can raise $1B+ and attach a model / fleet"]:::win
+  end
+  subgraph KILL["KILL — all true today"]
+    K1["Standard slots pre-owned: CUDA/TensorRT, LeRobot"]:::weak
+    K2["Value routes to chip + OSS + model lab"]:::weak
+    K3["Data flywheel lives outside your layer"]:::weak
+    K4["Right move (be the model+fleet lab) is $1B+ gated"]:::weak
+  end
+  classDef win fill:#adf0c7,stroke:#087429,color:#08231a
+  classDef weak fill:#ffc6c6,stroke:#bd0909,color:#3a0000
+  classDef neutral fill:#e7e7e7,stroke:#595959,color:#222
+  click K2 href "https://github.com/NVIDIA/Isaac-GR00T" _blank
+  click K4 href "https://techcrunch.com/2026/01/14/robotic-software-maker-skild-ai-hits-14b-valuation/" _blank
+    </pre>
+  </section>
+
+  <section>
+    <h2>4 · Tree A — where should the thinking layer run? ("is the opportunity real?")</h2>
+    <div class="note"><b>About A1 (maturity):</b> a robot program's stage — bootstrapping, piloting, or scaling — only sets a <i>starting bias</i>: early stages lean cloud, scaling earns the right to move onboard. The full thresholds and the re-evaluation triggers that move a placement over time live in the appendix (§9).</div>
     <pre class="mermaid">
 flowchart TB
   classDef q fill:#c6dcff,stroke:#305bab,color:#0a2a5e
@@ -97,7 +129,7 @@ flowchart TB
   SECB["SECURITY-BLOCKED → force onboard"]:::term
   MIT["CLOUD/EDGE + blast-radius mitigation (rate-limit · canary · anomaly-stop)"]:::hybrid
   PERM["CLOUD / EDGE placement — PERMANENT"]:::cloud
-  TRANS["CLOUD / EDGE placement — TRANSITIONAL → §2 capture"]:::cloud
+  TRANS["CLOUD / EDGE placement — TRANSITIONAL → §5 capture"]:::cloud
   TELE["TRANSITIONAL-TELEOP — human-in-loop bridge"]:::hybrid
 
   A1 -->|"Bootstrapping (under 10 units)"| TELE
@@ -129,7 +161,7 @@ flowchart TB
   ASEC -->|"None / shared creds"| SECB
   MIT --> AS
   AS -->|"Permanent (scaled, or fixed by law/physics)"| PERM
-  AS -->|"Transitional (re-eval triggers T1–T12)"| TRANS
+  AS -->|"Transitional (re-eval triggers T1–T12, §9)"| TRANS
 
   click A3 href "https://arxiv.org/abs/2602.18397" _blank
   click A35 href "https://arxiv.org/abs/2506.07339" _blank
@@ -140,7 +172,7 @@ flowchart TB
   </section>
 
   <section>
-    <h2>2 · Tree B — Capture: can an independent vendor charge for the off-robot layer?</h2>
+    <h2>5 · Tree B — can an independent vendor charge for it? ("is the business defensible?")</h2>
     <pre class="mermaid">
 flowchart TB
   classDef q fill:#c6dcff,stroke:#305bab,color:#0a2a5e
@@ -148,7 +180,7 @@ flowchart TB
   classDef mid fill:#fff6b6,stroke:#af7e02,color:#3a2e00
   classDef no fill:#ffc6c6,stroke:#8a0606,color:#3a0000
 
-  E["Entry: the thinking layer runs off the robot (from §1)"]:::q
+  E["Entry: the thinking layer runs off the robot (from §4)"]:::q
   E --> B0{"B0 · Base-model license allows 3rd-party serving?"}:::q
   B0 -->|"Internal-only / no redistribution"| L1b["Owner / lab captures — no independent"]:::no
   B0 -->|"Open / redistributable / own base"| B1{"B1 · Serving bundled with the licensed model?"}:::q
@@ -173,11 +205,11 @@ flowchart TB
   click L4b href "https://tryreflex.ai/" _blank
   click L1 href "https://sereact.ai/" _blank
     </pre>
-    <div class="note">Cross-links: at <b>M3 scaling</b>, BE tips to build-in-house and B5 to self-host; the A2.5 private-5G-vs-onboard-silicon capex trade feeds BE; a fleet-security finding (T10) routes placement onboard, secondarily shifting capture in-house. <b>Net:</b> only ~1 in 5 cloud-viable placements reach a genuine independent-vendor leaf (L4b + L5); the rest go bundled / build / $0-OSS / commodity-cloud / RaaS.</div>
+    <div class="note">Cross-links: at <b>scaling</b> (§9), BE tips to build-in-house and B5 to self-host; the A2.5 private-5G-vs-onboard-silicon capex trade feeds BE; a fleet-security finding (trigger T10, §9) routes placement onboard, secondarily shifting capture in-house. <b>Net:</b> only ~1 in 5 cloud-viable placements reach a genuine independent-vendor leaf (L4b + L5); the rest go bundled / build / $0-OSS / commodity-cloud / RaaS.</div>
   </section>
 
   <section>
-    <h2>3 · Comprehensive segment table — every use-case, per layer, with the capture verdict</h2>
+    <h2>6 · The 24 robot segments — the trees applied to every real use case</h2>
     <div class="note">Per-layer legend: <b>FC</b> = fast control (onboard reflex, 50–200 Hz) · <b>TL</b> = thinking layer (what Tree A places) · <b>TR</b> = training. Verdict = is the thinking layer a standalone business or captured by the OEM/integrator.</div>
     <table>
       <thead><tr><th style="width:14%">Segment</th><th style="width:44%">Use cases (full enumeration)</th><th style="width:24%">Representative companies</th><th style="width:8%">Per-layer</th><th style="width:10%">Indep. business?</th></tr></thead>
@@ -215,34 +247,15 @@ flowchart TB
   </section>
 
   <section>
-    <h2>4 · Glossary — every node/term, quantified, with evidence</h2>
-    <table>
-      <thead><tr><th>Term</th><th>Definition</th><th>Source</th></tr></thead>
-      <tbody>
-        <tr><td><b>Three inference layers</b></td><td>Fast control (reflex) 50–1000 Hz, sub-50 ms, no buffer → onboard. Thinking layer (planning/perception) 1–10 Hz, tolerates +200–300 ms via action-chunking → cloud-eligible. Training/fleet-learning → cloud.</td><td><a href="https://arxiv.org/abs/2506.07339" target="_blank">RTC</a></td></tr>
-        <tr><td><b>A1 maturity / A6.S sunset</b></td><td>Stage by program: bootstrapping (under ~10 units) / pilot (10–100) / scaled (over 100). Every leaf is transitional with re-eval triggers (T1–T12) except scaled or fixed-by-law.</td><td>§0</td></tr>
-        <tr><td><b>A2 hard bar (by remedy)</b></td><td>ITAR → access-controlled US region; localization (PIPL ≥1M → CAC) → in-region/sovereign cloud; biometric (BIPA $1k/$5k, GDPR Art.9) → onboard or on-device anonymize; FDA in-loop → change-control; only must-process-locally → onboard.</td><td><a href="https://www.preveil.com/blog/how-the-end-to-end-encryption-carveout-is-reshaping-itar-compliance/" target="_blank">ITAR</a> · <a href="https://www.loc.gov/item/global-legal-monitor/2022-12-12/china-measures-of-security-assessment-for-cross-border-data-transfer-take-effect/" target="_blank">PIPL</a></td></tr>
-        <tr><td><b>A2.5 connectivity-as-capex</b></td><td>Fixed sites can <i>provision</i> private-5G/CBRS (small warehouse $50–100K; base station $100–200K) → A3 becomes an ROI choice; mobile/outdoor takes connectivity as given → A3 is a hard constraint.</td><td>§0 T5</td></tr>
-        <tr><td><b>A3 connectivity (4-dim)</b></td><td>Reliable = p99 RTT ≤50 ms · jitter ≤20 ms · uplink ≥10 Mbps (3-cam stream ≈ 2–10 Mbps) · loss under 0.1% → wired / private-5G (URLLC sub-1 ms, 99.999%). Intermittent = p99 fails. None = ≤4G (30–70 ms).</td><td><a href="https://www.5gamericas.org/wp-content/uploads/2019/07/5G_Americas_URLLLC_White_Paper_Final__updateJW.pdf" target="_blank">URLLC</a></td></tr>
-        <tr><td><b>A3.5 model family</b></td><td>Autoregressive (RT-2, OpenVLA): coarse chunks, INT4-friendly. Flow/diffusion (π0, GR00T, Helix): fine chunks at 50–200 Hz, quantize only via QuantVLA/QVLA. Discrete-diffusion: chunkable, AR-like quant (most onboard-friendly).</td><td><a href="https://arxiv.org/abs/2506.07339" target="_blank">RTC</a></td></tr>
-        <tr><td><b>A4.H HYBRID failover</b></td><td>HYBRID stands only if a certified onboard abort policy exists (watchdog ≤1 control cycle @50–200 Hz → Cat-3 PL-d monitored stop); uncertified → power-&-force-limited regimes only; none → HYBRID collapses to onboard-or-nothing.</td><td>ISO 13849 / TS 15066</td></tr>
-        <tr><td><b>A5 compute fit</b></td><td>Memory ≈ params × 2 B (FP16) / × 0.5 B (INT4): 3B ≈ 6/1.5 GB, 7B ≈ 14/3.5 GB. Full-onboard = FP16 ≤ VRAM (Orin 32–64 / Thor 128 GB) AND ≥ control rate (Thor ~19 Hz on 3B; H100 ~162) within 40–130 W. Else quantized-onboard or offload.</td><td><a href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-thor/" target="_blank">Thor</a> · <a href="https://arxiv.org/abs/2602.18397" target="_blank">VLA-Perf</a></td></tr>
-        <tr><td><b>A6.SEC fleet security</b></td><td>A homogeneous fleet on a shared cloud command path is a blast radius (one compromised endpoint → whole fleet). Requires signed commands + per-robot authz + onboard kill-switch; partial → mitigation only; none → security-blocked onboard.</td><td>§0 T10</td></tr>
-        <tr><td><b>Build vs buy (Tree B: BX · BE)</b></td><td>Not "do they have a team" — a team is buyable. BX: core differentiator (build) vs commodity context (buy). BE: all-in build (hire + build + maintain) vs all-in buy at scale × duration; build wins above the ~70–80% util crossover (graduation), buy wins sub-scale / for speed.</td><td><a href="https://www.spheron.network/blog/llm-inference-on-premise-vs-cloud/" target="_blank">build-vs-rent</a></td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section>
-    <h2>5 · Competitor landscape (by layer)</h2>
+    <h2>7 · Competitor landscape (by layer)</h2>
     <table>
       <thead><tr><th>Company</th><th>Layer</th><th>Stage / funding</th><th>Traction</th></tr></thead>
       <tbody>
         <tr class="grp"><td colspan="4">Model + serving + fleet (vertically integrated — proven)</td></tr>
         <tr><td><a href="https://sereact.ai/" target="_blank">Sereact</a> · <a href="https://www.ycombinator.com/companies/mbodi-ai" target="_blank">Mbodi</a> · Flexion · <a href="https://www.generalrobotics.company/" target="_blank">GRID</a></td><td>VLA + fleet learning / NL→action / intelligence layer</td><td>$110M B · YC X25 · $50M A (NVIDIA) · Accenture+MSFT</td><td>Sereact 1B+ picks, BMW/PepsiCo; Mbodi ABB + 5,000-robot pilot</td></tr>
-        <tr class="grp"><td colspan="4">Pure VLA-serving wedge (the §2 L4b leaf — real, mostly pre-revenue / OSS-led)</td></tr>
+        <tr class="grp"><td colspan="4">Pure VLA-serving wedge (the §5 L4b leaf — real, mostly pre-revenue / OSS-led)</td></tr>
         <tr><td><a href="https://tryreflex.ai/" target="_blank">Reflex/FastCrest</a> · <a href="https://qualiastudios.dev/" target="_blank">Qualia</a> · <a href="https://phospho.ai/" target="_blank">phospho</a> · <a href="https://github.com/Hebbian-Robotics/openpi-flash" target="_blank">Hebbian</a> · <a href="https://dexmal.com/" target="_blank">Dexmal</a></td><td>VLA deploy / serve / optimize</td><td>~$0–7.5M; mostly unverified</td><td>OSS-led; no named paying customers yet</td></tr>
-        <tr class="grp"><td colspan="4">General clouds moving in (the §2 L4a leaf)</td></tr>
+        <tr class="grp"><td colspan="4">General clouds moving in (the §5 L4a leaf)</td></tr>
         <tr><td><a href="https://modal.com/" target="_blank">Modal</a> · <a href="https://nebius.com/solutions/physical-ai-and-robotics" target="_blank">Nebius</a></td><td>serverless / managed GPU cloud</td><td>~$1.1B val / public</td><td><b>Modal runs Physical Intelligence 24/7 VLA inference</b></td></tr>
         <tr class="grp"><td colspan="4">Adjacent — fleet-ops / data</td></tr>
         <tr><td><a href="https://foxglove.dev/" target="_blank">Foxglove</a> · <a href="https://config.inc/" target="_blank">Config</a> · <a href="https://formant.io/" target="_blank">Formant</a> · <a href="https://www.inorbit.ai/" target="_blank">InOrbit</a></td><td>observability / data / RobOps</td><td>$40M · $27M · ~$39M · ~$13M</td><td>"data infra for physical AI"</td></tr>
@@ -254,37 +267,53 @@ flowchart TB
   </section>
 
   <section>
-    <h2>6 · Leader watchlist — GO vs KILL (all KILL true today)</h2>
-    <div class="note">Positioned to lead = the <b>vertically-integrated model + fleet owners</b> (PI, Skild, Figure, Sereact). Two KILL signals explained:
-      <ul>
-        <li><b>"Value routes to chip + OSS + model lab":</b> the margin pools elsewhere — NVIDIA monetizes silicon and gives serving away to sell it; OSS (LeRobot/openpi) makes the software $0; the model lab monetizes weights + flywheel and bundles/open-sources the serving tricks. A serving middleman is sandwiched with commodity margins → absorbed.</li>
-        <li><b>"Be the model+fleet lab is $1B+ gated":</b> the defensible move (own model + data flywheel + fleet) needs frontier training compute + hundreds of millions in teleop data (~$118–340/hr) + fleet ownership + scarce talent + years of pre-revenue burn. Comps: PI ~$11B, Skild ~$14B, Figure ~$39B, FieldAI $405M, Rhoda $450M — the entry ticket is $0.4–1.4B rounds, not a serving seed.</li>
-      </ul>
-    </div>
-    <pre class="mermaid">
-flowchart TB
-  L["Leader signals"]:::neutral
-  L --> GO
-  L --> KILL
-  subgraph GO["GO — going first is justified if these appear (not true yet)"]
-    G1["Serving deals with DATA RIGHTS attached  ★ master signal"]:::win
-    G2["Learned-policy cert regime + you take liability"]:::win
-    G3["Interface standard fragments off NVIDIA / HF"]:::win
-    G4["Inference 15-20%+ of robot opex + multi-vendor fleet ~100k"]:::win
-    G5["You can raise $1B+ and attach a model / fleet"]:::win
-  end
-  subgraph KILL["KILL — all true today"]
-    K1["Standard slots pre-owned: CUDA/TensorRT, LeRobot"]:::weak
-    K2["Value routes to chip + OSS + model lab"]:::weak
-    K3["Data flywheel lives outside your layer"]:::weak
-    K4["Right move (be the model+fleet lab) is $1B+ gated"]:::weak
-  end
-  classDef win fill:#adf0c7,stroke:#087429,color:#08231a
-  classDef weak fill:#ffc6c6,stroke:#bd0909,color:#3a0000
-  classDef neutral fill:#e7e7e7,stroke:#595959,color:#222
-  click K2 href "https://github.com/NVIDIA/Isaac-GR00T" _blank
-  click K4 href "https://techcrunch.com/2026/01/14/robotic-software-maker-skild-ai-hits-14b-valuation/" _blank
-    </pre>
+    <h2>8 · Reference glossary — every node/term, quantified, with evidence</h2>
+    <table>
+      <thead><tr><th>Term</th><th>Definition</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td><b>Three inference layers</b></td><td>Fast control (reflex) 50–1000 Hz, sub-50 ms, no buffer → onboard. Thinking layer (planning/perception) 1–10 Hz, tolerates +200–300 ms via action-chunking → cloud-eligible. Training/fleet-learning → cloud.</td><td><a href="https://arxiv.org/abs/2506.07339" target="_blank">RTC</a></td></tr>
+        <tr><td><b>A1 maturity / A6.S sunset</b></td><td>Stage by program: bootstrapping (under ~10 units) / pilot (10–100) / scaled (over 100). Every leaf is transitional with re-eval triggers (T1–T12) except scaled or fixed-by-law. Full tables in §9.</td><td>§9</td></tr>
+        <tr><td><b>A2 hard bar (by remedy)</b></td><td>ITAR → access-controlled US region; localization (PIPL ≥1M → CAC) → in-region/sovereign cloud; biometric (BIPA $1k/$5k, GDPR Art.9) → onboard or on-device anonymize; FDA in-loop → change-control; only must-process-locally → onboard.</td><td><a href="https://www.preveil.com/blog/how-the-end-to-end-encryption-carveout-is-reshaping-itar-compliance/" target="_blank">ITAR</a> · <a href="https://www.loc.gov/item/global-legal-monitor/2022-12-12/china-measures-of-security-assessment-for-cross-border-data-transfer-take-effect/" target="_blank">PIPL</a></td></tr>
+        <tr><td><b>A2.5 connectivity-as-capex</b></td><td>Fixed sites can <i>provision</i> private-5G/CBRS (small warehouse $50–100K; base station $100–200K) → A3 becomes an ROI choice; mobile/outdoor takes connectivity as given → A3 is a hard constraint.</td><td>§9 (T5)</td></tr>
+        <tr><td><b>A3 connectivity (4-dim)</b></td><td>Reliable = p99 RTT ≤50 ms · jitter ≤20 ms · uplink ≥10 Mbps (3-cam stream ≈ 2–10 Mbps) · loss under 0.1% → wired / private-5G (URLLC sub-1 ms, 99.999%). Intermittent = p99 fails. None = ≤4G (30–70 ms).</td><td><a href="https://www.5gamericas.org/wp-content/uploads/2019/07/5G_Americas_URLLLC_White_Paper_Final__updateJW.pdf" target="_blank">URLLC</a></td></tr>
+        <tr><td><b>A3.5 model family</b></td><td>Autoregressive (RT-2, OpenVLA): coarse chunks, INT4-friendly. Flow/diffusion (π0, GR00T, Helix): fine chunks at 50–200 Hz, quantize only via QuantVLA/QVLA. Discrete-diffusion: chunkable, AR-like quant (most onboard-friendly).</td><td><a href="https://arxiv.org/abs/2506.07339" target="_blank">RTC</a></td></tr>
+        <tr><td><b>A4.H HYBRID failover</b></td><td>HYBRID stands only if a certified onboard abort policy exists (watchdog ≤1 control cycle @50–200 Hz → Cat-3 PL-d monitored stop); uncertified → power-&-force-limited regimes only; none → HYBRID collapses to onboard-or-nothing.</td><td>ISO 13849 / TS 15066</td></tr>
+        <tr><td><b>A5 compute fit</b></td><td>Memory ≈ params × 2 B (FP16) / × 0.5 B (INT4): 3B ≈ 6/1.5 GB, 7B ≈ 14/3.5 GB. Full-onboard = FP16 ≤ VRAM (Orin 32–64 / Thor 128 GB) AND ≥ control rate (Thor ~19 Hz on 3B; H100 ~162) within 40–130 W. Else quantized-onboard or offload.</td><td><a href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-thor/" target="_blank">Thor</a> · <a href="https://arxiv.org/abs/2602.18397" target="_blank">VLA-Perf</a></td></tr>
+        <tr><td><b>A6.SEC fleet security</b></td><td>A homogeneous fleet on a shared cloud command path is a blast radius (one compromised endpoint → whole fleet). Requires signed commands + per-robot authz + onboard kill-switch; partial → mitigation only; none → security-blocked onboard.</td><td>§9 (T10)</td></tr>
+        <tr><td><b>Build vs buy (Tree B: BX · BE)</b></td><td>Not "do they have a team" — a team is buyable. BX: core differentiator (build) vs commodity context (buy). BE: all-in build (hire + build + maintain) vs all-in buy at scale × duration; build wins above the ~70–80% util crossover (graduation), buy wins sub-scale / for speed.</td><td><a href="https://www.spheron.network/blog/llm-inference-on-premise-vs-cloud/" target="_blank">build-vs-rent</a></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>9 · Appendix — when a placement changes over time</h2>
+    <div class="note">A placement from Tree A is not permanent. First classify the <b>program</b> (not the robot) into a maturity stage; it sets the starting bias but never overrides a hard safety/regulatory gate. You can't skip stages — bootstrapping generates the data flywheel that earns graduation.</div>
+    <table>
+      <thead><tr><th>Stage</th><th>Quantified signal (2026)</th><th>Bias</th></tr></thead>
+      <tbody>
+        <tr><td class="p"><b>M1 Bootstrapping</b> — human is the product, robot is the data rig</td><td>autonomous completion under 80–90%; mean-time-between-interventions under one 8-hr shift; under 10–20 units (typ 1–5); 1 site; pre-revenue/paid-pilot</td><td>teleop / hybrid / cloud + data flywheel; capture = full-RaaS or bundled-lab; do <b>not</b> build serving in-house</td></tr>
+        <tr><td class="p"><b>M2 Piloting</b> — proven at one site, prove it generalizes</td><td>completion ≥90–95%; MTBI ≥ one shift→days; 10–100 units, 2–10 sites; serving util under 50% / under 40 GPU-hr/wk; SLAs exist</td><td><b>none</b> — run the placement + capture trees exactly as written</td></tr>
+        <tr><td class="p"><b>M3 Scaling</b> — proven + high sustained volume</td><td>over 100–1,000+ homogeneous units, ≥10 sites, own-manufacture at line rate (RoboFab 10K/yr, BotQ 12K/yr, Amazon ~750K–1M); serving util ≥50–60% / over 6 GPU-hr/day; break-even ~13–18 mo</td><td>onboard / quantized-onboard + build-in-house (graduation)</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="margin-top:12px"><b>Re-evaluation triggers</b> — every leaf is <code>(verdict, trigger, sunset-owner)</code>; a fired trigger opens a migration, keeping the old leaf as certified fallback until the new one passes the same safety/reg gates:</div>
+    <table>
+      <thead><tr><th>#</th><th>Trigger</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>T1</td><td>GPU $/hr crosses ±25% (B200 ~$2.12/hr; H100 ~$1.03–3.12; AWS H200 +15% Jan-26)</td><td>far-cloud ↔ on-prem-edge / generic-cloud ↔ build</td></tr>
+        <tr><td>T2</td><td>model distilled below the onboard-memory line (fits Thor 128 GB at NVFP4 ≥ rate; Shallow-π 2×, SnapFlow 1-step)</td><td>cloud/hybrid → quantized-onboard / onboard</td></tr>
+        <tr><td>T3</td><td>vendor ships an action-head runtime (JetPack 7.1 + TensorRT Edge-LLM on Thor)</td><td>→ onboard; de-moats the serving vendor</td></tr>
+        <tr><td>T4</td><td>fleet crosses build-vs-rent utilization (≥50–60% / over 6 GPU-hr/day; ~13–18 mo break-even)</td><td>generic-cloud / RaaS → build-in-house</td></tr>
+        <tr><td>T5</td><td>connectivity provisioned (private-5G/CBRS: small warehouse $50–100K; base station $100–200K)</td><td>onboard → hybrid / MEC / on-prem-edge</td></tr>
+        <tr><td>T6</td><td>certified failover/abort policy lands</td><td>unlocks the HYBRID leaf (else it stays collapsed)</td></tr>
+        <tr><td>T7</td><td>model family changes (AR Pi0-FAST vs flow π0 2–5 Hz → ~50 Hz via Real-Time Chunking)</td><td>re-pick A4 chunkability + A5 quantizability</td></tr>
+        <tr><td>T8</td><td>autonomy crosses the human-bridge threshold (completion ≥90–95%)</td><td>stage M1 → M2</td></tr>
+        <tr><td>T9</td><td>fleet homogeneity + count cross the in-house bar (over 100–1,000 units / ≥10 sites)</td><td>stage M2 → M3</td></tr>
+        <tr><td>T10</td><td>fleet-correlated blast-radius incident/audit (one endpoint commands the whole fleet)</td><td>far-cloud → onboard kill-switch + signed commands</td></tr>
+        <tr><td>T11</td><td>vendor/licensing economics shift (per-robot license × fleet &gt; in-house; or free-OSS becomes good-enough)</td><td>licensed/bundled → build-in-house or DIY-free-OSS</td></tr>
+        <tr><td>T12</td><td>retrain cadence slows (weekly → quarterly; stable checkpoint)</td><td>precondition that enables baking an onboard binary</td></tr>
+      </tbody>
+    </table>
   </section>
 
   <p class="legend">
@@ -294,6 +323,6 @@ flowchart TB
     <span class="swatch" style="background:#f1d6ff"></span>terminal (blocked/collapsed)
     <span class="swatch" style="background:#c6dcff"></span>decision
   </p>
-  <footer>Source of truth — edit this file. Evaluated per layer with a maturity gate, a placement tree (six former caveats now real nodes), and a separate capture tree. The cloud opportunity (thinking layer + training) is real and broad; the independent, defensible serving business is narrow (~1 in 5 placements) — open-weights, no-captive-fleet, buy-decision, with a moat.</footer>
+  <footer>Source of truth — edit this file. A go/no-go map read top to bottom: the answer (§1–§3), the reasoning — placement tree, capture tree, and both applied to 24 segments (§4–§6), then reference and an appendix on how placements migrate over time (§7–§9). The cloud opportunity (thinking layer + training) is real and broad; the independent, defensible serving business is narrow (~1 in 5 placements) — open-weights, no-captive-fleet, buy-decision, with a moat.</footer>
 </body>
 </html>
