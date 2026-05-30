@@ -175,6 +175,7 @@ flowchart TB
   classDef win fill:#adf0c7,stroke:#0a5a22,color:#08231a
   classDef mid fill:#fff6b6,stroke:#af7e02,color:#3a2e00
   classDef no fill:#ffc6c6,stroke:#8a0606,color:#3a0000
+  classDef det fill:#e9defb,stroke:#6b46c1,color:#2e1065
 
   E["Entry: the thinking layer runs off the robot (from §4)"]:::q
   E --> B0{"B0 · Base-model license allows 3rd-party serving?"}:::q
@@ -182,12 +183,11 @@ flowchart TB
   B0 -->|"Open / redistributable / own base"| B1{"B1 · Serving bundled with the licensed model?"}:::q
   B1 -->|"Yes (lab ships the runtime)"| L1["BUNDLED — model lab captures"]:::no
   B1 -->|"No (BYO runtime)"| BX{"BX · Is serving a CORE differentiator, or commodity context?"}:::q
-  BX -->|"Core (it IS your moat)"| LBUILD["BUILD in-house — fund/hire the team; owner captures"]:::no
-  BX -->|"Context (undifferentiated)"| B2{"B2 · Free OSS / NVIDIA already hits the control rate?"}:::q
-  B2 -->|"Yes (free license; you self-operate)"| L2["DIY on free OSS — $0 license, but you still pay infra + ops + people to run + maintain it (real TCO, not free)"]:::no
-  B2 -->|"No (real perf gap)"| BE{"BE · All-in BUILD cost (hire+build+maintain) vs all-in BUY, at scale × duration?"}:::q
-  BE -->|"Build cheaper (large, sustained scale)"| L6["BUILD / internalize — hire with the buy budget"]:::no
-  BE -->|"Buy cheaper (sub-scale / speed / won't own it)"| B5{"B5 · Must self-host, or is managed SaaS OK?"}:::q
+  BX -->|"Core — your moat (passes ⓐ below)"| LBUILD["BUILD in-house — fund/hire the team; owner captures"]:::no
+  BX -->|"Context — commodity (fails ⓐ below)"| B2["B2 · Does free OSS / NVIDIA hit the control rate? — determinant, not a leaf: yes → 'build' = adopt + self-operate OSS (no license fee, but real infra + ops + people); no → 'build' = write the serving stack from scratch"]:::det
+  B2 --> BE{"BE · All-in BUILD (self-operate) vs all-in BUY (managed / license), at scale × duration? (conditions ⓑ below)"}:::q
+  BE -->|"BUILD cheaper — all ⓑ-build conditions hold"| L6["BUILD / self-operate — adopt free OSS if it hits the rate, else build from scratch; hire with the buy budget (real TCO)"]:::no
+  BE -->|"BUY cheaper — any ⓑ-buy condition holds"| B5{"B5 · Must self-host, or is managed SaaS OK?"}:::q
   B5 -->|"Must self-host (residency / IP)"| L5["BUY a serving LICENSE (on-prem)"]:::win
   B5 -->|"Managed SaaS OK"| B6{"B6 · Vendor depth?"}:::q
   B6 -->|"Generic GPU cloud"| L4a["BUY generic GPU cloud — commodity (Modal/Baseten)"]:::mid
@@ -201,7 +201,29 @@ flowchart TB
   click L4b href "https://tryreflex.ai/" _blank
   click L1 href "https://sereact.ai/" _blank
     </pre>
-    <div class="note">Cross-links: at <b>scaling</b> (§9), BE tips to build-in-house and B5 to self-host; the A2.5 private-5G-vs-onboard-silicon capex trade feeds BE; a fleet-security finding (trigger T10, §9) routes placement onboard, secondarily shifting capture in-house. <b>Net:</b> only ~1 in 5 cloud-viable placements reach a genuine independent-vendor leaf (L4b + L5); the rest go bundled / build / self-run-OSS / commodity-cloud / RaaS.</div>
+    <div class="note" style="margin-top:12px"><b>ⓐ BX · core-vs-context test</b> — serving is <b>CORE (build it)</b> if <i>any</i> row on the left holds; it's <b>CONTEXT (source it → BE)</b> only if <i>every</i> row on the right holds. (Geoffrey Moore, core-vs-context)</div>
+    <table>
+      <thead><tr><th style="width:50%">Serving is CORE → build in-house (any one)</th><th style="width:50%">Serving is CONTEXT → source it (all of these)</th></tr></thead>
+      <tbody>
+        <tr><td class="n">Measurable competitive weapon — your latency / throughput / $-per-inference beats rivals and customers feel it (higher pick rate, lower $/pick, more uptime)</td><td class="y">Customers neither see nor pay for it — undifferentiated plumbing</td></tr>
+        <tr><td class="n">Embeds proprietary IP — custom kernels, distillation, action-head runtime, model-specific scheduler that competitors can't copy</td><td class="y">An off-the-shelf runtime (vLLM / TensorRT / NIM / openpi) already hits your control rate</td></tr>
+        <tr><td class="n">Safety / certification-critical and you must own the evidence chain + carry the liability</td><td class="y">No proprietary IP is lost by outsourcing it</td></tr>
+        <tr><td class="n">Co-designed with your model — runtime and weights can't be cleanly separated</td><td class="y">Cleanly separable from your model (stable API boundary)</td></tr>
+        <tr><td class="n">Owning it changes your unit economics at <i>your</i> scale (already at graduation scale, §9 M3)</td><td class="y">Below graduation scale — owning it changes nothing yet</td></tr>
+      </tbody>
+    </table>
+    <div class="note" style="margin-top:12px"><b>ⓑ BE · build-vs-buy economics</b> — <b>BUY</b> (managed / license) wins if <i>any</i> row on the left holds; <b>BUILD</b> (self-operate) wins only if <i>every</i> row on the right holds. (<a href="https://www.spheron.network/blog/llm-inference-on-premise-vs-cloud/" target="_blank">build-vs-rent</a>)</div>
+    <table>
+      <thead><tr><th style="width:50%">BUY cheaper → B5 (any one)</th><th style="width:50%">BUILD / self-operate cheaper → L6 (all of these)</th></tr></thead>
+      <tbody>
+        <tr><td class="y">Utilization below the crossover — under ~50–60% sustained GPU util / under ~6 GPU-hr/day per accelerator (idle reserved capacity is wasted; managed serverless scales to zero)</td><td class="n">Sustained high utilization ≥ ~50–60% / over ~6 GPU-hr/day → owned or reserved hardware beats on-demand (break-even ~13–18 mo)</td></tr>
+        <tr><td class="y">Sub-scale fleet — too few robots / inferences to amortize a dedicated cluster + an ML-infra team (~$0.5–1.5M/yr loaded for 2–4 engineers)</td><td class="n">Large, stable, homogeneous fleet at graduation scale (100s–1,000s units, §9 M3) to amortize cluster + team</td></tr>
+        <tr><td class="y">Speed — you need it in weeks, not the 6–12 mo to build, harden, and put a serving stack on-call</td><td class="n">Stable requirements — quarterly (not weekly) retrains, fixed model family (T7 / T12)</td></tr>
+        <tr><td class="y">Volatile requirements — model family / size still churning; premature to optimize a fixed in-house stack</td><td class="n">Residency / IP / latency already force self-host (overlaps B5) — marginal cost of also operating is low</td></tr>
+        <tr><td class="y">Not core (decided at BX) and engineering time has higher-value uses; preserve runway (opex over capex)</td><td class="n">All-in build TCO (hire + build + maintain + infra) &lt; all-in buy (license / managed × fleet × duration)</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Cross-links: at <b>scaling</b> (§9), BE tips to build / self-operate and B5 to self-host; the A2.5 private-5G-vs-onboard-silicon capex trade feeds BE; a fleet-security finding (trigger T10, §9) routes placement onboard, secondarily shifting capture in-house. <b>Net:</b> only ~1 in 5 cloud-viable placements reach a genuine independent-vendor leaf (L4b + L5); the rest go bundled / build-or-self-operate-OSS / commodity-cloud / RaaS.</div>
   </section>
 
   <section>
@@ -277,7 +299,7 @@ flowchart TB
         <tr><td><b>A5 compute fit</b></td><td>Memory ≈ params × 2 B (FP16) / × 0.5 B (INT4): 3B ≈ 6/1.5 GB, 7B ≈ 14/3.5 GB. Full-onboard = FP16 ≤ VRAM (Orin 32–64 / Thor 128 GB) AND ≥ control rate (Thor ~19 Hz on 3B; H100 ~162) within 40–130 W. Else quantized-onboard or offload.</td><td><a href="https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-thor/" target="_blank">Thor</a> · <a href="https://arxiv.org/abs/2602.18397" target="_blank">VLA-Perf</a></td></tr>
         <tr><td><b>A6 offload tiers</b></td><td>Menu of off-robot placements (a parameter, not a fork): on-prem-edge (sub-ms, no WAN) · near-edge / MEC (~10–14 ms) · far-cloud (lowest $/GPU but data egress + sovereignty) · hybrid (cloud thinking layer / onboard fast control). All proceed to the A6.SEC fleet-security gate.</td><td>ETSI MEC</td></tr>
         <tr><td><b>A6.SEC fleet security</b></td><td>A homogeneous fleet on a shared cloud command path is a blast radius (one compromised endpoint → whole fleet). Requires signed commands + per-robot authz + onboard kill-switch; partial → mitigation only; none → security-blocked onboard.</td><td>§9 (T10)</td></tr>
-        <tr><td><b>Build vs buy (Tree B: BX · BE)</b></td><td>Not "do they have a team" — a team is buyable. BX: core differentiator (build) vs commodity context (buy). BE: all-in build (hire + build + maintain) vs all-in buy at scale × duration; build wins above the ~70–80% util crossover (graduation), buy wins sub-scale / for speed.</td><td><a href="https://www.spheron.network/blog/llm-inference-on-premise-vs-cloud/" target="_blank">build-vs-rent</a></td></tr>
+        <tr><td><b>Build vs buy (Tree B: BX · B2 · BE)</b></td><td>Not "do they have a team" — a team is buyable. BX core-vs-context test (full criteria ⓐ in §5) decides build vs source. B2 (free OSS) only <i>lowers</i> the build/self-operate cost — it is not free (infra + ops + people), so the build-vs-buy decision still runs. BE economics (full criteria ⓑ in §5): buy wins sub-scale / under ~50–60% sustained util / for speed / volatile requirements; build wins at graduation scale + ≥ ~50–60% util / over ~6 GPU-hr/day (break-even ~13–18 mo).</td><td><a href="https://www.spheron.network/blog/llm-inference-on-premise-vs-cloud/" target="_blank">build-vs-rent</a></td></tr>
       </tbody>
     </table>
   </section>
