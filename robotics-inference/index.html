@@ -337,6 +337,56 @@ flowchart TB
     </table>
   </section>
 
+  <section>
+    <h2>10 · Founder lens — the 4 YES opportunities ranked as beachhead ICPs</h2>
+    <div class="note">If you were to <b>start</b> the independent thinking-layer business, these are the four places it's viable (the YES segments), ranked best-to-worst as a first beachhead by willingness-to-pay &amp; contract size, sales-cycle &amp; reachability, time-to-first-revenue, defensibility, and expansion. <b>Beachhead pick: #1 — drone defense autonomy-OS:</b> the only one that scores well on <i>every</i> axis (huge budget tailwind, paid SBIR/DIU/OTA on-ramp that funds the build, 80%+ software margins, a fragmented OEM long tail incumbents can't serve). <span style="color:#bd0909"><b>All dollar figures are ESTIMATES grounded in the named comps</b></span> — directional, not quotes.</div>
+    <table>
+      <thead><tr>
+        <th style="width:15%">Rank &amp; opportunity</th>
+        <th style="width:21%">ICP — who writes the check &amp; why they buy</th>
+        <th style="width:17%">Pricing &amp; unit economics</th>
+        <th style="width:18%">Path: LOI → MVP → first contract</th>
+        <th style="width:14%">First contract &amp; est. ARR</th>
+        <th style="width:15%">Comps &amp; key risk</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="y"><b>#1 · Drone defense autonomy-OS</b><br><span class="co">EW-survivable terminal-guidance / GPS-denied autonomy licensed to drone OEMs + sold to attritable-drone programs. Attractiveness: <b>HIGH</b></span></td>
+          <td>Mid-tier Western/allied drone OEMs (20–500 ppl, $5–200M rev; FPV / loitering-munition / Group 1–3 ISR) that build cheap airframes but have no autonomy/EW team — <i>plus</i> DoD program offices (DIU, Army AAL, SOCOM) and Ukraine Brave1 buying autonomy as government-furnished kit. <b>Why buy:</b> airframes are commoditized; jam-resistant terminal autonomy in contested EW is the scarce, hard part. $13.4B+ budget line growing ~35%/yr (Replicator, Ukraine).</td>
+          <td>Per-airframe license <b>$800–2,500</b> (software-on-OEM-compute royalty $300–800) + <b>$250K–1.5M</b> OEM platform license/NRE per design-win + fleet SaaS ~$900–1,200/vehicle/yr. <b>~85–92% GM</b> software-only (45–60% if you also ship the compute board); infra ~$50–150/vehicle/yr.</td>
+          <td>M0–3: pick one airframe class + one missing capability (jam-resistant lock-on / GPS-denied visual nav); demo on a commodity airframe + sub-$150 Jetson-class module; sign 2–4 design-partner LOIs via DIU / SOF Week / Brave1. M3–9: build autonomy SDK; run jamming/terminal-guidance field tests funded by <b>SBIR Phase II / DIU OTA</b> → first batch license.</td>
+          <td>Pilot/prototype <b>$150K–1M</b> (SBIR Ph II ~$1–2M; DIU OTA $0.5–2M). First annual <b>$750K–3M</b> (per-unit license on a 1,000–5,000-unit batch + NRE). <b>Est ARR/logo</b> $1.5–5M → $8–20M+ (program-of-record). Company: Y1 $0.5–2M · Y2 $5–15M · Y3 $20–50M.</td>
+          <td>Auterion ($130M Series B, ~$600M+ val; $50M / 33,000 Skynode kits ≈ $1,500/unit; Suite Pro $77/veh/mo), Shield AI Hivemind (~$90M rev, $12.7B val), Anduril Lattice. <b>Risk:</b> very well-capitalized incumbents chase the same buyers → must win a sharp capability wedge (EW survivability), not breadth; ITAR + valley-of-death.</td>
+        </tr>
+        <tr>
+          <td class="y"><b>#2 · Industrial inspection autonomy + analytics SaaS</b><br><span class="co">hardware-agnostic, across Spot / ANYmal / DJI-dock fleets. Attractiveness: <b>MEDIUM-HIGH</b> (fastest to revenue)</span></td>
+          <td>Asset owner running ≥2 inspection robots/drone docks at a large site or multi-site — O&amp;G midstream/downstream, electric-utility substations, hyperscale/colo data centers, mines. <b>Check-writer = Plant Reliability/Integrity Manager or Site Ops Director (opex line, not IT).</b> Why buy: neutral across a mixed fleet; displaces a ~$150K/yr human inspector with under-2-yr ROI; 2026 data-center boom.</td>
+          <td>Per-robot autonomy+fleet seat <b>$12–20K/robot/yr</b> (premium over BD Orbit's ~$5–10K — you add domain AI) + per-site platform <b>$25–60K/site/yr</b> + AI model packs (gauge OCR, thermal, gas-leak, corrosion) <b>$8–25K/yr each</b> = the expansion engine. <b>~75–85% GM</b>; cloud ~10–18% of rev.</td>
+          <td>Wk0–6: pick ONE vertical wedge (data centers — repeatable thermal+gauge routes, least ATEX drag); 3–5 design partners via BD Orbit / DJI Dock partner programs. Wk4–10: 2–3 <b>paid pilots</b> from operators who <i>already own</i> a robot (no hardware to procure) → 60–90-day paid proof-of-value → annual.</td>
+          <td>Pilot <b>$25–75K</b> (60–90-day PoV, one site/robot, one pack). First annual <b>$60–120K</b> (single site, 1–2 robots, per-site + seats + 1 pack); ~$150K with managed-service. <b>Est ARR/logo</b> Y1 $60–120K → Y2 $200–400K → Y3 $500–900K (best logos $1M+). Company: Y1 $0.5–1M · Y2 $3–5M · Y3 $8–15M.</td>
+          <td>Energy Robotics/Korial ($13.5M+ Series A; Shell/BP/BASF/Merck; 8 OEMs), Percepto ($120M+ raised), BD Orbit (~$5–10K/robot/yr). <b>Risk:</b> the vendor-neutral seat is <i>already taken</i> (Korial, Percepto) → must out-niche (own data centers or one model pack); BD Orbit / DJI adding native features could foreclose the layer.</td>
+        </tr>
+        <tr>
+          <td class="p"><b>#3 · Ground/maritime defense autonomy software</b><br><span class="co">decoupled, platform-agnostic, into Army RCV/ISV &amp; Navy USV via the gov open architecture. Attractiveness: <b>MEDIUM-HIGH</b> (biggest checks, hardest to start lean)</span></td>
+          <td>A DoD program/prototyping office running OTAs — <b>DIU</b> (as Army NGCV/PEO-GCS agent) + Army Robotic Capabilities Office / DEVCOM GVSC; secondary Navy PMS 406, SOCOM. Check-writer = the PM/PdL on RDT&amp;E lines (FY26 RCV RDT&amp;E ~$93M+). Why buy: the gov-owned MOSA reference architecture <i>deliberately</i> decouples autonomy from the chassis so it's competed separately; the Army dropped in-house autonomy → a real software-only seat.</td>
+          <td>(1) NRE/integration OTA <b>$5–50M</b>/program over 18–24 mo — gov funds your R&amp;D. (2) Recurring per-vehicle license <b>~$40–120K/UGV/yr</b> (mid ~$75K), anchored to Anduril Lattice per-asset pricing. (3) Sustainment/MLOps. <b>~70–85% GM</b> steady-state, but field-support headcount + IL5/IL6 accredited infra ($0.5–2M/yr/program) → services-heavy early.</td>
+          <td>~18–30 mo to first paid. M0–3: hire a DARPA-RACER/RCV-credentialed autonomy lead; pick ISV (cheapest gov-owned interface); get sim/vehicle access via a prime/university. M2–6: respond to a DIU/SOFWERX CSO; win a no-cost CRADA or SBIR Ph I/II ($250K–1M) = the defense "LOI." M4–9: MVP = map-free off-road perception + formation autonomy on the reference interface → ISV-class OTA.</td>
+          <td>Wedge <b>$250K–3M</b> (SBIR Ph II ~$1–2M). First prototype OTA <b>$5–20M</b> ceiling / 18–24 mo (~$3–10M/yr). <b>Est ARR/program</b> Y1 ~$3–6M (services-heavy) → Y2 ~$8–15M → Y3 ~$20–40M if it converts toward a program-of-record. Company: Y1 ~$5M · Y2 ~$20M · Y3 ~$45–70M.</td>
+          <td>Overland AI ($18.6M GVAP OT, ~$140M raised), Kodiak ($49.9M GVAP OT), Applied Intuition ($15B val; $49M RCV + $171M production + $249M BPA), Forterra ($238M Series C). <b>Risk:</b> incumbents already hold the exact seats with $100M–$1.5B war chests; revenue hinges on a single slippable/cancelable down-select (RCV isn't a program-of-record yet); clearance + IL5/IL6 + ITAR = hardest to start lean.</td>
+        </tr>
+        <tr>
+          <td class="p"><b>#4 · Commercial-cleaning autonomy OS</b><br><span class="co">BrainOS-style autonomy/fleet "brain" licensed to floor-care OEMs. Attractiveness: <b>MEDIUM-HIGH</b> for a robotics+cleaning team / <b>LOW</b> for a generic one</span></td>
+          <td>Mid-large Western cleaning-equipment OEMs ($300M–1.5B rev) lacking a deep autonomy org — Nilfisk, Kärcher, Hako, Minuteman, ICE, Fimap, IPC; plus the 5 mega facility-services operators (ABM, ISS, Sodexo, Compass, Aramark). Check-writer = VP Product/CTO sponsored by CEO (strategic make-vs-buy). <b>Tiny ~25-buyer TAM.</b> Why buy: a 30–60-engineer multi-year autonomy effort doesn't fit a mechanical OEM; Gausium (40k units, #1) is eating the category and Brain Corp is drifting to retail data → orphan-risk OEMs want a second source.</td>
+          <td>OEM license <b>$1,500–3,000/robot/yr</b> + one-time NRE <b>$250–750K</b>/OEM; or direct-to-operator hardware-agnostic SaaS $1,200–2,400/robot/yr. <b>~70–80% GM</b> at scale (50–60% early when remote-ops is human-heavy); price NRE near cost-recovery as a design-win.</td>
+          <td>~14–18 mo to first paid OEM. M0–3: pick an orphan-risk / second-source OEM (Minuteman, ICE, Fimap, or Nilfisk); LOI/paid co-dev via ISSA / Interclean / ProMat. M3–9: MVP = your stack running autonomously on ONE of their chassis (SLAM + dynamic-obstacle + fleet console), beating their current intervention rate. M9–14: supervised paid pilot, 5–20 robots, 1–3 sites. M14–18: per-robot license + NRE on one SKU with a ramp clause.</td>
+          <td>Co-dev/LOI <b>$100–300K</b>; pilot <b>$250–600K</b> (NRE + per-robot on 5–20 units); first annual production <b>$400–900K</b> (NRE + license on first ~150–400 units of one SKU). <b>Est ARR/logo</b> Y1 $300–600K → Y2 $1.0–2.5M → Y3 $3–7M+ (a Brain-Corp-scale account can top 10k robots = $15–30M ceiling). Company: Y1 $0.5–1.5M · Y2 $3–6M · Y3 $10–20M.</td>
+          <td>Brain Corp (the template: 40,000+ AMRs, $182M raised, OEM-licensing; BrainOS Clean 2.0 with Tennant Apr-2026; pivoting to ShelfOptix). <b>Risk:</b> Gausium's vertical integration can undercut the licensed-brain thesis entirely; ~25-buyer TAM (losing 2–3 deals is material); slow capital-heavy 12–18-mo cycles; Brain Corp lock-in / price-cut.</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note"><b>How they compare:</b> biggest first checks → #3 ($5–50M OTAs) then #1 ($0.75–3M, but diversified across a many-OEM tail so far less concentration risk) then #4 (mid-six-figure to ~$900K) then #2 ($60–150K). Fastest to revenue &amp; easiest sale → #2 (opex-line buyer, 60–90-day pilots, no capex committee). Slowest / most capital-heavy → #4 (12–18-mo strategic sale to ~25 buyers) and #3 (clearances, IL5/IL6, single down-select). Best blended bet for a new entrant → <b>#1</b>.</div>
+  </section>
+
   <p class="legend">
     <span class="swatch" style="background:#adf0c7"></span>cloud / independent business
     <span class="swatch" style="background:#fff6b6"></span>hybrid / partial / determinant
