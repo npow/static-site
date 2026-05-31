@@ -45,11 +45,11 @@ footer{padding:34px 0 60px;color:#6b7280;font-size:13px}
 <div class="wrap">
 
 <section class="blk" id="map"><h2>The shape of the field</h2>
-  <p class="lead">Robotics is far broader — and more industrial — than the humanoid headlines suggest. The biggest pools of companies are mobile robots for warehouses and logistics, industrial arms, inspection, drones, and field/agriculture machines. Humanoids are loud but, by company count, still a slice.</p>
+  <p class="lead">Sized by <b>capital raised</b>, the field's shape is stark: <b>humanoids</b>, <b>robotaxis/AVs</b>, and <b>defense autonomy</b> hold most of the disclosed money. Flip the toggle to <b>company count</b> and a different picture appears — a wide, mundane base of industrial arms, warehouse/logistics robots, inspection, drones and field machines dwarfs the frontier bets. Robotics is both: a few heavily-funded moonshots sitting on a broad industrial base.</p>
   <div id="region-legend"></div>
   <div style="margin:2px 0 12px">
-    <button id="bt-count" data-base="font:600 12px Helvetica,Arial,sans-serif;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;" style="font:600 12px Helvetica;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;background:#4f46e5;color:#fff" onclick="buildTree('count')">By company (count)</button>
-    <button id="bt-fund" data-base="font:600 12px Helvetica,Arial,sans-serif;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;" style="font:600 12px Helvetica;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;background:#eef2ff;color:#4f46e5" onclick="buildTree('fund')">By money raised ($)</button>
+    <button id="bt-count" data-base="font:600 12px Helvetica,Arial,sans-serif;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;" style="font:600 12px Helvetica;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;background:#eef2ff;color:#4f46e5" onclick="buildTree('count')">By company (count)</button>
+    <button id="bt-fund" data-base="font:600 12px Helvetica,Arial,sans-serif;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;" style="font:600 12px Helvetica;padding:6px 12px;margin-right:8px;border:1px solid #c7d2fe;border-radius:6px;cursor:pointer;background:#4f46e5;color:#fff" onclick="buildTree('fund')">By money raised ($)</button>
   </div>
   <div class="chart" id="c-tree"></div>
   <p class="cap" id="tree-cap"></p>
@@ -122,7 +122,7 @@ function buildTree(mode){try{
  bc.style.cssText=bc.dataset.base+(mode==="fund"?"background:#eef2ff;color:#4f46e5":"background:#4f46e5;color:#fff");
  bf.style.cssText=bf.dataset.base+(mode==="fund"?"background:#4f46e5;color:#fff":"background:#eef2ff;color:#4f46e5");
 }catch(e){console.error("tree",e);}}
-buildTree("count");
+buildTree("fund");
 
 // capital by segment (neutral, single accent)
 try{const agg={};cos.forEach(r=>{if(!agg[r.sn])agg[r.sn]={f:0,n:0};agg[r.sn].f+=(r.f||0);agg[r.sn].n++;});
