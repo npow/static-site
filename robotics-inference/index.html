@@ -41,6 +41,13 @@
   table.icptbl tr.rg td { background:#eef2ff; font-weight:normal; color:#374151; font-size:11px; padding:6px 8px; }
   table.icptbl .dim { color:#9ca3af; }
   table.dirtbl b.icp { color:#0a5a22; font-size:10px; }
+  h2 { scroll-margin-top: 14px; }
+  h2 .hself { color: inherit; text-decoration: none; }
+  h2 .hself:hover { text-decoration: none; }
+  h2 .hlink { margin-left: 8px; color: #cbd5e1; font-weight: 400; font-size: .72em; text-decoration: none; opacity: 0; transition: opacity .15s; vertical-align: middle; }
+  h2:hover .hlink { opacity: 1; }
+  h2 .hlink:hover { color: #2563eb; }
+  html { scroll-behavior: smooth; }
 </style>
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
@@ -53,7 +60,7 @@
   <p class="hint">A top-to-bottom read: the answer first, then the reasoning, then every robot type checked one by one, then — if you'd build it anyway — where to start and how big it gets.</p>
 
   <section>
-    <h2>The short answer</h2>
+    <h2 id="short-answer"><a class="hself" href="#short-answer">The short answer</a><a class="hlink" href="#short-answer" aria-hidden="true">#</a></h2>
     <div class="callout">
       <p>fal rents cloud GPUs to run AI models for images and video. The idea here is the same one for robots: run a robot's AI "brain" in the cloud and charge for it. To test whether that's a business, we walked through every kind of robot and the real companies building each one.</p>
       <p><b>What we found:</b> the demand to run robot AI <i>off</i> the device is real and growing — but a defensible <b>independent</b> business that does it <b>in the cloud</b> is rare. Not because it's impossible: a robot can run its own real-time reflexes and still ship the heavier <b>thinking layer</b> to your cloud — that hybrid split <i>is</i> the “fal for robotics” product. The real question is whether anyone would <b>prefer</b> to rent that from an independent company. Mostly they wouldn't — where offload works, robot makers build the AI themselves, get it free, or guard it as their edge; and the cases where cloud help would matter most (real-time control, or weak/jammed networks) are exactly the ones physics pushes back onto the robot. Of 24 robot types, only four support an independent AI business at all, and only <b>one</b> is genuinely cloud-based. The winners own the robots and the AI together.</p>
@@ -62,7 +69,7 @@
   </section>
 
   <section>
-    <h2>First, the one idea everything rests on</h2>
+    <h2 id="core-idea"><a class="hself" href="#core-idea">First, the one idea everything rests on</a><a class="hlink" href="#core-idea" aria-hidden="true">#</a></h2>
     <p class="note">Every robot runs AI in three different places. They have completely different needs, and <b>only the middle one</b> is even a candidate for the cloud.</p>
 <table>
       <thead><tr><th style="width:22%">Layer</th><th style="width:24%">Where it runs</th><th style="width:54%">What it does / why it runs there</th></tr></thead>
@@ -75,7 +82,7 @@
   </section>
 
   <section>
-    <h2>The answer, in full</h2>
+    <h2 id="the-answer"><a class="hself" href="#the-answer">The answer, in full</a><a class="hlink" href="#the-answer" aria-hidden="true">#</a></h2>
     <div class="verdict">
       <p>The cloud opportunity is <b>real and broad</b> as a place where work happens — across most robots, the thinking layer and the training both pull compute off the device. But an <b>independent, defensible business</b> selling that is <b>narrow</b>. When we checked all 24 robot types against the actual companies, only four have a proven independent AI business today: <b>commercial cleaning, inspection, drones, and defense</b>. And of those, only <b>inspection analytics</b> is genuinely cloud-based — cleaning is a hybrid (control onboard, fleet data in the cloud) and the high-value drone and defense autonomy runs on the robot itself. So for a literal "run robots' AI in the cloud and charge for it" company, the proven count is about <b>one</b>.</p>
       <p>Everywhere else, the AI is built in-house by the robot maker, taken free from open-source, bundled in by a model lab, or wrapped into a full rent-a-robot service. The companies actually positioned to win are the ones building the <b>AI model and the robot fleet together</b> — Physical Intelligence, Skild, Figure, Sereact — not a serving middleman.</p>
@@ -108,7 +115,7 @@ flowchart TB
   </section>
 
   <section>
-    <h2>Filter 1 — where can a robot's brain actually live?</h2>
+    <h2 id="filter-1"><a class="hself" href="#filter-1">Filter 1 — where can a robot's brain actually live?</a><a class="hlink" href="#filter-1" aria-hidden="true">#</a></h2>
     <p class="note">Walk any robot through these questions and you learn whether its thinking can run in the cloud. Most of the time the answer comes back "on the robot": real-time control plus a weak or jammed network forces the AI back on-device. Diamonds are decisions; the coloured boxes are the outcomes (green runs off-robot, red stays onboard, yellow is a mix).</p>
 <pre class="mermaid">
 flowchart TB
@@ -175,7 +182,7 @@ flowchart TB
   </section>
 
   <section>
-    <h2>Filter 2 — even off the robot, can you sell it?</h2>
+    <h2 id="filter-2"><a class="hself" href="#filter-2">Filter 2 — even off the robot, can you sell it?</a><a class="hlink" href="#filter-2" aria-hidden="true">#</a></h2>
     <p class="note">Running in the cloud isn't a business by itself. Even when a robot's thinking runs off-device, the robot maker usually builds that AI themselves or gets it for free. This filter asks whether they'd <b>buy</b> it from an independent company — and whether that company could defend the position.</p>
 <pre class="mermaid">
 flowchart TB
@@ -231,7 +238,7 @@ flowchart TB
     </table>  </section>
 
   <section>
-    <h2>We checked every robot</h2>
+    <h2 id="every-segment"><a class="hself" href="#every-segment">We checked every robot</a><a class="hlink" href="#every-segment" aria-hidden="true">#</a></h2>
     <p class="note">Theory is cheap, so we went through all 24 kinds of robots and the real companies in each, and asked of every one: does an independent AI-brain business actually exist here, or do the robot makers build it themselves? (<b>FC</b> = fast control · <b>TL</b> = thinking layer · <b>TR</b> = training.) The <b>verdict</b> column is the <i>follower's</i> read — does an independent vendor exist <i>today</i> with real customers — so a NO comes in two flavours: <b>structural</b> (physics or regulation rules it out for anyone: surgery, telepresence, exoskeletons, space, on-device consumer home) and <b>"not yet"</b> (makers build it in-house today and no independent has traction — e.g. hospital logistics, sidewalk delivery, elder-care). For the "not yet" ones, a leader watches the GO/NO-GO gates below.)</p>
 <table>
       <thead><tr><th style="width:14%">Segment</th><th style="width:44%">Use cases (full enumeration)</th><th style="width:24%">Companies (top 3 → full list in the directory)</th><th style="width:8%">Per-layer</th><th style="width:10%">Indep. business?</th></tr></thead>
@@ -289,7 +296,7 @@ flowchart TB
   </section>
 
   <section>
-    <h2>If you built it — the four bets, ranked two ways</h2>
+    <h2 id="the-four-bets"><a class="hself" href="#the-four-bets">If you built it — the four bets, ranked two ways</a><a class="hlink" href="#the-four-bets" aria-hidden="true">#</a></h2>
     <p class="note">The flat "cloud serving for any robot" company is the no-go from the verdict above — but value <i>does</i> exist in a few vertical niches, and four are worth a serious look. (These four re-cut the proven segments above: the <b>inspection</b> business pulls from both inspection robots and inspection drones; <b>defense</b> splits into a drone play and a ground/maritime play; <b>cleaning</b> stands alone.) There are two honest ways to rank them, and they <b>disagree on purpose</b>: a <b>follower</b> ranks by what's proven and bankable <i>today</i> (existing buyers, contract size, time-to-revenue); a <b>leader</b> ranks by where a funded buyer has just <i>forced the market open</i>, accepting that "no one buys an independent brain yet" is exactly what you'd expect before a category exists. Where the AI <i>runs</i> is a separate axis again — only inspection is genuinely cloud-native, the two defense plays run onboard, cleaning is hybrid; each row is tagged.</p>
 
     <p class="note"><b>A &middot; The follower's ranking — by proven commercial attractiveness.</b> If you want existing-buyer proof before you commit, this is the order, with the economics.</p>
@@ -320,7 +327,7 @@ flowchart TB
     </section>
 
   <section>
-    <h2>How big is the prize?</h2>
+    <h2 id="market-size"><a class="hself" href="#market-size">How big is the prize?</a><a class="hlink" href="#market-size" aria-hidden="true">#</a></h2>
     <p class="note">For each of the four <i>proven</i> businesses, the yearly revenue opportunity for the <b>AI-software layer only</b> (not the robots themselves). <b>TAM</b> is the whole market; <b>SAM</b> is what an independent vendor could realistically serve once you remove the wrong geographies and the buyers who build in-house; <b>SOM</b> is what one focused company could win in 3–5 years. Everything is an estimate, built from public market reports and named comparable companies, with 2026 as the base year. (The wider "not yet" leader plays from the gates table — mining, cobots, warehouse, etc. — aren't sized here; they're earlier-stage.)</p>
 <table>
       <thead><tr>
@@ -364,7 +371,7 @@ flowchart TB
   </section>
 
   <section>
-    <h2>Who would actually buy it? — the ICP shortlist</h2>
+    <h2 id="icp-shortlist"><a class="hself" href="#icp-shortlist">Who would actually buy it? — the ICP shortlist</a><a class="hlink" href="#icp-shortlist" aria-hidden="true">#</a></h2>
     <p class="note"><b>Method.</b> We screened all 2,584 companies in the directory — each tagged with what it does, funding, stage and region — segment by segment, against one question: would this company <i>rent</i> a cloud thinking layer, or <i>build</i> its own? This replaces the earlier 39-company sample with the full universe. The ideal customer is a Seed-to-Series-C robot OEM or operator with a credible body but no frontier research org, selling into a latency-tolerant, non-regulated domain where the 1-10 Hz reasoning layer is the differentiator they must ship fast — and would rather rent than build.</p>
     <p><b>The ICP is a "rent-the-brain" robot company, not a brain-builder.</b> Concretely: a hardware-first OEM or a robot-as-a-service operator whose value proposition is the physical machine, the deployment, or the service contract — but whose competitive gap is autonomy. They have enough capital to pay for a usage-priced cloud reasoning layer, but not enough to staff a frontier VLA/foundation-model team. That is the <b>"can pay but won't build" sweet spot</b>.</p><p><b>Funding band:</b> roughly <b>$5M-$150M</b>, concentrated in <b>Seed through Series C</b>. Below ~$2M (e.g. Eliport at $0.16M, Ubica at $0.76M) the fit is structurally right but the company cannot pay. Above ~$200-300M (Dexterity $300M, Symbotic, Figure, Skild) the company has the cash to build its own stack and usually does. The densest pockets sit at Seed-Series B in the $10-90M range.</p><p><b>Stage trigger:</b> the buyer is in <i>scaling mode under speed-to-autonomy pressure</i> — racing to expand SKU/task coverage, site count, or fleet density faster than an in-house research hire could deliver. The decisive signal is <b>architecture</b>: they already run hybrid or teleop-assisted control (Agtonomy's tele-assist, Reflex/temi's teleop-to-autonomy, Coco's operator-assist, ICE Cobotics' subscription RaaS), so cloud/hybrid cognition fits their existing posture rather than requiring a re-architecture.</p><p><b>Domain trigger:</b> the workload must be <b>latency-tolerant and non-safety-critical at the reasoning tier</b> — coverage/route planning, grasp-and-sequence reasoning, social/conversational dialog, planogram diffing, mission orchestration — running at 1-10 Hz while hard-real-time control stays onboard. The single cleanest proof point is commercial cleaning, where Brain Corp's BrainOS already licenses a thinking layer to Tennant, Kärcher, Nilfisk, SoftBank, ICE and RPS — demonstrating the buy-not-build behavior is real and repeatable.</p>
     <p><b>The shortlist — ranked targets.</b> Pulled from the per-segment screens; funding, stage and HQ are the researched figures. These are <i>leads to qualify</i>, not closed accounts.</p>
@@ -372,38 +379,38 @@ flowchart TB
       <thead><tr><th>Company</th><th>Segment</th><th>Funding</th><th>Stage</th><th>HQ</th><th>Why they&rsquo;d rent, not build</th></tr></thead>
       <tbody>
         <tr class="rg"><td colspan="6"><b>Tier 1</b> — Beachhead (proven buy-not-build; cleanest cloud-fit) Commercial cleaning and social/service/elder-care are the two strong-rated segments where the buy-not-build behavior is already proven (BrainOS licensees) or structurally inevitable (the differentiator is cloud-native dialog/coverage reasoning). Land here first: these buyers have already chosen to rent autonomy, or their product literally cannot ship without a rented reasoning layer.</td></tr>
-        <tr><td><b>Tennant Company</b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>public</td><td>USA</td><td>Already a proven rent-the-brain buyer running BrainOS on its autonomous line; a hardware-first floor-machine OEM that has explicitly chosen to license autonomy — the ideal swap/expansion target.</td></tr>
-        <tr><td><b>Nilfisk</b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>public</td><td>Denmark</td><td>Classic floor-machine OEM that partnered with Brain Corp for its autonomous SC50; proven willingness to license a brain rather than build it.</td></tr>
-        <tr><td><b>ICE Cobotics</b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>private</td><td>USA</td><td>Cobi runs on BrainOS and the company sells equipment-as-a-subscription, so usage-priced cloud cognition matches its business model exactly.</td></tr>
-        <tr><td><b>Kärcher (KIRA)</b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>private/large</td><td>Germany</td><td>Cleaning-machine giant with strong hardware but bought/licensed autonomy (BrainOS history); wants autonomy-as-a-service to keep up with robot-native rivals.</td></tr>
-        <tr><td><b>Rice Robotics</b></td><td>20. Social / service / elder-care</td><td>$7M</td><td>seed</td><td>Hong Kong</td><td>Seed delivery+companion robot maker with no research org, racing to add richer interaction — the differentiator is cloud-friendly dialog/planning, a prime rent-the-brain profile.</td></tr>
-        <tr><td><b>Andromeda Robotics (Abi)</b></td><td>20. Social / service / elder-care</td><td>$18M</td><td>Series A</td><td>Australia</td><td>Series A companion robot whose core product is empathetic conversation/social reasoning — exactly the cloud thinking layer they&#x27;d rent rather than build.</td></tr>
-        <tr><td><b>Enchanted Tools (Mirokaï)</b></td><td>20. Social / service / elder-care</td><td>$18M</td><td>seed</td><td>France</td><td>Character/social humanoid where the brain IS dialog + expressive reasoning (cloud-native); seed funding can pay but can&#x27;t fund a frontier research org.</td></tr>
-        <tr><td><b>LionsBot International</b></td><td>7. Commercial cleaning</td><td>$38M</td><td>Series A</td><td>Singapore</td><td>Series A cleaning operator at the funded-but-not-frontier sweet spot, shipping fleets fast; would rent a thinking layer to focus capital on hardware/go-to-market.</td></tr>
+        <tr><td><b><a href="https://www.tennantco.com/" target="_blank">Tennant Company</a></b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>public</td><td>USA</td><td>Already a proven rent-the-brain buyer running BrainOS on its autonomous line; a hardware-first floor-machine OEM that has explicitly chosen to license autonomy — the ideal swap/expansion target.</td></tr>
+        <tr><td><b><a href="https://www.nilfisk.com/" target="_blank">Nilfisk</a></b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>public</td><td>Denmark</td><td>Classic floor-machine OEM that partnered with Brain Corp for its autonomous SC50; proven willingness to license a brain rather than build it.</td></tr>
+        <tr><td><b><a href="https://icecobotics.com/" target="_blank">ICE Cobotics</a></b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>private</td><td>USA</td><td>Cobi runs on BrainOS and the company sells equipment-as-a-subscription, so usage-priced cloud cognition matches its business model exactly.</td></tr>
+        <tr><td><b><a href="https://www.kaercher.com/" target="_blank">Kärcher (KIRA)</a></b></td><td>7. Commercial cleaning</td><td><span class="dim">&mdash;</span></td><td>private/large</td><td>Germany</td><td>Cleaning-machine giant with strong hardware but bought/licensed autonomy (BrainOS history); wants autonomy-as-a-service to keep up with robot-native rivals.</td></tr>
+        <tr><td><b><a href="https://www.ricerobotics.com/" target="_blank">Rice Robotics</a></b></td><td>20. Social / service / elder-care</td><td>$7M</td><td>seed</td><td>Hong Kong</td><td>Seed delivery+companion robot maker with no research org, racing to add richer interaction — the differentiator is cloud-friendly dialog/planning, a prime rent-the-brain profile.</td></tr>
+        <tr><td><b><a href="https://andromedarobotics.ai/" target="_blank">Andromeda Robotics (Abi)</a></b></td><td>20. Social / service / elder-care</td><td>$18M</td><td>Series A</td><td>Australia</td><td>Series A companion robot whose core product is empathetic conversation/social reasoning — exactly the cloud thinking layer they&#x27;d rent rather than build.</td></tr>
+        <tr><td><b><a href="https://enchanted.tools/" target="_blank">Enchanted Tools (Mirokaï)</a></b></td><td>20. Social / service / elder-care</td><td>$18M</td><td>seed</td><td>France</td><td>Character/social humanoid where the brain IS dialog + expressive reasoning (cloud-native); seed funding can pay but can&#x27;t fund a frontier research org.</td></tr>
+        <tr><td><b><a href="https://www.lionsbot.com/" target="_blank">LionsBot International</a></b></td><td>7. Commercial cleaning</td><td>$38M</td><td>Series A</td><td>Singapore</td><td>Series A cleaning operator at the funded-but-not-frontier sweet spot, shipping fleets fast; would rent a thinking layer to focus capital on hardware/go-to-market.</td></tr>
         <tr class="rg"><td colspan="6"><b>Tier 2</b> — Core vein (moderate segments, strong cloud-fit, sweet-spot funding) The dense, repeatable hunting ground: Seed-Series C OEMs/operators in latency-tolerant manipulation, mobile-robot orchestration, construction task robots, and connected-niche agriculture. These are the textbook &#x27;pay but don&#x27;t build&#x27; companies — funded enough to be real customers, too small for a research org, with workloads that map cleanly to a 1-10 Hz cloud/hybrid brain.</td></tr>
-        <tr><td><b>Anyware Robotics</b></td><td>3. Stationary latency-tolerant / pick-pack</td><td>$17M</td><td>seed</td><td>USA</td><td>Seed hardware-first truck/container-unloading robot; far too small to build a frontier grasp/sequence brain, so a usage-priced cloud layer directly accelerates time-to-autonomy.</td></tr>
-        <tr><td><b>Contoro Robotics</b></td><td>3. Stationary latency-tolerant</td><td>$22M</td><td>Series A</td><td>USA</td><td>Series A unloading operator in the exact funding sweet spot; needs mixed-carton manipulation reasoning it cannot afford to build — prime rent-the-brain candidate.</td></tr>
-        <tr><td><b>Chef Robotics</b></td><td>2/3. AI pick-pack / food assembly</td><td>$66M</td><td>Series A</td><td>USA</td><td>Series A food-assembly RaaS operator handling deformable, variable ingredients (real latency-tolerant manipulation reasoning) without a frontier research org; renting speeds menu/SKU expansion.</td></tr>
-        <tr><td><b>Pickle Robot</b></td><td>3/6. Truck unloading</td><td>$87M</td><td>Series B</td><td>USA</td><td>Series B operator with a narrow unstructured-unload use case; speed-to-throughput beats owning frontier autonomy, sweet-spot funding to pay without building a VLA.</td></tr>
-        <tr><td><b>Standard Bots</b></td><td>4. Cobots</td><td>$63M</td><td>Series B</td><td>USA</td><td>Series B no-code cobot challenger racing to ship autonomy on its own arm without a research org; the AI task-reasoning layer is exactly what it could rent to move faster.</td></tr>
-        <tr><td><b>Agtonomy</b></td><td>13. Agricultural / field</td><td>$64M</td><td>Series B</td><td>USA</td><td>Tele-assist/supervised-autonomy model is inherently hybrid-cloud and connectivity-tolerant; Series B operator racing to ship across OEM partners without a frontier research org.</td></tr>
-        <tr><td><b>Dusty Robotics</b></td><td>14. Construction</td><td>$69M</td><td>Series B</td><td>USA</td><td>Scaling Series B layout-robot OEM; BIM-to-floor layout is classic 1-10 Hz thinking-layer work that tolerates cloud/hybrid, with no research org and speed-to-feature pressure.</td></tr>
-        <tr><td><b>Onward Robotics</b></td><td>6. Warehouse AMRs</td><td>$20M</td><td>Series A</td><td>USA</td><td>Series A AMR+orchestration vendor small enough that building proprietary fleet/path-planning is a distraction, large enough to pay — speed pressure favors renting the brain.</td></tr>
-        <tr><td><b>Ati Motors</b></td><td>6. Warehouse AMRs</td><td>$37M</td><td>Series B</td><td>India</td><td>Series B industrial AMR OEM scaling globally with no research org; a cloud brain accelerates multi-site fleet reasoning without hiring a planning team.</td></tr>
-        <tr><td><b>Bonsai Robotics</b></td><td>13. Agricultural / field</td><td>$15M</td><td>Series A</td><td>USA</td><td>Series A retrofit-onto-existing-machinery model in connected orchards (workable hybrid connectivity); classic buy-the-brain sweet spot.</td></tr>
-        <tr><td><b>Canvas</b></td><td>14. Construction</td><td>$43M</td><td>Series B</td><td>USA</td><td>Series B drywall-finishing OEM in scaling phase; surface-mapping/finish-path planning is cloud-friendly, funded to pay but too small for a planning research org.</td></tr>
-        <tr><td><b>Teleo</b></td><td>14. Construction</td><td>$30M</td><td>Series A</td><td>USA</td><td>Supervised-autonomy retrofit model is explicitly remote/hybrid, so a cloud planning layer fits its architecture; Series A with no frontier research org, racing to ship.</td></tr>
+        <tr><td><b><a href="https://anyware-robotics.com/" target="_blank">Anyware Robotics</a></b></td><td>3. Stationary latency-tolerant / pick-pack</td><td>$17M</td><td>seed</td><td>USA</td><td>Seed hardware-first truck/container-unloading robot; far too small to build a frontier grasp/sequence brain, so a usage-priced cloud layer directly accelerates time-to-autonomy.</td></tr>
+        <tr><td><b><a href="https://contoro.com" target="_blank">Contoro Robotics</a></b></td><td>3. Stationary latency-tolerant</td><td>$22M</td><td>Series A</td><td>USA</td><td>Series A unloading operator in the exact funding sweet spot; needs mixed-carton manipulation reasoning it cannot afford to build — prime rent-the-brain candidate.</td></tr>
+        <tr><td><b><a href="https://www.chefrobotics.ai/" target="_blank">Chef Robotics</a></b></td><td>2/3. AI pick-pack / food assembly</td><td>$66M</td><td>Series A</td><td>USA</td><td>Series A food-assembly RaaS operator handling deformable, variable ingredients (real latency-tolerant manipulation reasoning) without a frontier research org; renting speeds menu/SKU expansion.</td></tr>
+        <tr><td><b><a href="https://www.picklerobot.com/" target="_blank">Pickle Robot</a></b></td><td>3/6. Truck unloading</td><td>$87M</td><td>Series B</td><td>USA</td><td>Series B operator with a narrow unstructured-unload use case; speed-to-throughput beats owning frontier autonomy, sweet-spot funding to pay without building a VLA.</td></tr>
+        <tr><td><b><a href="https://standardbots.com" target="_blank">Standard Bots</a></b></td><td>4. Cobots</td><td>$63M</td><td>Series B</td><td>USA</td><td>Series B no-code cobot challenger racing to ship autonomy on its own arm without a research org; the AI task-reasoning layer is exactly what it could rent to move faster.</td></tr>
+        <tr><td><b><a href="https://www.agtonomy.com/" target="_blank">Agtonomy</a></b></td><td>13. Agricultural / field</td><td>$64M</td><td>Series B</td><td>USA</td><td>Tele-assist/supervised-autonomy model is inherently hybrid-cloud and connectivity-tolerant; Series B operator racing to ship across OEM partners without a frontier research org.</td></tr>
+        <tr><td><b><a href="https://www.dustyrobotics.com/" target="_blank">Dusty Robotics</a></b></td><td>14. Construction</td><td>$69M</td><td>Series B</td><td>USA</td><td>Scaling Series B layout-robot OEM; BIM-to-floor layout is classic 1-10 Hz thinking-layer work that tolerates cloud/hybrid, with no research org and speed-to-feature pressure.</td></tr>
+        <tr><td><b><a href="https://onwardrobotics.com/" target="_blank">Onward Robotics</a></b></td><td>6. Warehouse AMRs</td><td>$20M</td><td>Series A</td><td>USA</td><td>Series A AMR+orchestration vendor small enough that building proprietary fleet/path-planning is a distraction, large enough to pay — speed pressure favors renting the brain.</td></tr>
+        <tr><td><b><a href="https://www.atimotors.com/" target="_blank">Ati Motors</a></b></td><td>6. Warehouse AMRs</td><td>$37M</td><td>Series B</td><td>India</td><td>Series B industrial AMR OEM scaling globally with no research org; a cloud brain accelerates multi-site fleet reasoning without hiring a planning team.</td></tr>
+        <tr><td><b><a href="https://bonsairobotics.ai/" target="_blank">Bonsai Robotics</a></b></td><td>13. Agricultural / field</td><td>$15M</td><td>Series A</td><td>USA</td><td>Series A retrofit-onto-existing-machinery model in connected orchards (workable hybrid connectivity); classic buy-the-brain sweet spot.</td></tr>
+        <tr><td><b><a href="https://canvas.build/" target="_blank">Canvas</a></b></td><td>14. Construction</td><td>$43M</td><td>Series B</td><td>USA</td><td>Series B drywall-finishing OEM in scaling phase; surface-mapping/finish-path planning is cloud-friendly, funded to pay but too small for a planning research org.</td></tr>
+        <tr><td><b><a href="https://www.teleo.ai/" target="_blank">Teleo</a></b></td><td>14. Construction</td><td>$30M</td><td>Series A</td><td>USA</td><td>Supervised-autonomy retrofit model is explicitly remote/hybrid, so a cloud planning layer fits its architecture; Series A with no frontier research org, racing to ship.</td></tr>
         <tr class="rg"><td colspan="6"><b>Tier 3</b> — Opportunistic (right profile, dampened by funding, geography, or partial overlap) Real buy-not-build logic but with a discount: undercapitalized seed players (strong intent, thin ability to pay), connected-but-cloud-friction geographies (China data-residency), or companies that build some autonomy in-house and would only rent a supplementary layer. Pursue selectively as the model proves out.</td></tr>
-        <tr><td><b>Persona AI</b></td><td>16. Humanoids</td><td>$42M</td><td>seed</td><td>USA</td><td>Seed industrial humanoid OEM with a narrow high-value task domain and no research org; classic buy-not-build racing to ship on a tight budget.</td></tr>
-        <tr><td><b>Reflex Robotics</b></td><td>16. Humanoids</td><td>$7M</td><td>seed</td><td>USA</td><td>Teleop-first wheeled mobile manipulator (non-locomotion-locked) — a natural fit to graduate teleop into cloud-assisted autonomy; tiny seed budget rules out in-house research.</td></tr>
-        <tr><td><b>Ascento</b></td><td>10. Security patrol</td><td>$4M</td><td>seed</td><td>Switzerland</td><td>Seed hardware-first outdoor patrol OEM with no research org; classic rent-to-ship-faster profile, capped only by the customer&#x27;s cloud/on-prem security objection.</td></tr>
-        <tr><td><b>Zippedi</b></td><td>9. Retail shelf-scan</td><td>$23M</td><td>Series A/B</td><td>Chile</td><td>RaaS shelf-scan operator in the funding sweet spot racing to scale across LatAm/US; slow aisle nav + planogram reasoning are cloud/hybrid-friendly.</td></tr>
-        <tr><td><b>Flytrex</b></td><td>18. Drones / UAVs</td><td>$60M</td><td>Series C</td><td>Israel</td><td>Scaling suburban delivery operator focused on logistics/ops, not autonomy research; connected fleet where cloud/hybrid dispatch and route planning fit.</td></tr>
-        <tr><td><b>Percepto</b></td><td>18. Drones / UAVs</td><td>$134M</td><td>Series C</td><td>USA</td><td>Drone-in-a-box inspection is inherently connected and cloud-backhauled; mission planning/re-tasking at 1-10 Hz fits hybrid, focused on industrial workflows not foundational autonomy.</td></tr>
-        <tr><td><b>Keybotic</b></td><td>17. Quadruped inspection</td><td>$3M</td><td>acquired (small)</td><td>Spain</td><td>Tiny pure inspection-quadruped operator with zero capacity to build a planning/anomaly brain; renting a cloud layer is the only realistic path to scale autonomy.</td></tr>
-        <tr><td><b>Taurob</b></td><td>17. Quadruped inspection</td><td><span class="dim">&mdash;</span></td><td>acquired</td><td>Austria</td><td>ATEX-certified hazardous-area inspection hardware specialist whose differentiator is the rugged certified platform, not the planning brain — a strong rent-the-brain candidate.</td></tr>
-        <tr><td><b>Path Robotics</b></td><td>1. Fixed industrial arms</td><td>$271M</td><td>Series D</td><td>USA</td><td>Entire value prop is weld-seam reasoning/path planning layered on third-party FANUC arms; borderline given its scale, but a stronger cloud planning brain could accelerate roadmap.</td></tr>
-        <tr><td><b>Yarbo</b></td><td>19. Consumer home (commercial/outdoor edge)</td><td>$30M</td><td>Series B</td><td>USA</td><td>Hardware-first modular outdoor-yard platform at Series B with hard multi-module RTK/vision planning and no frontier research org; speed-to-autonomy pressure favors renting.</td></tr>
+        <tr><td><b><a href="https://www.personainc.ai/" target="_blank">Persona AI</a></b></td><td>16. Humanoids</td><td>$42M</td><td>seed</td><td>USA</td><td>Seed industrial humanoid OEM with a narrow high-value task domain and no research org; classic buy-not-build racing to ship on a tight budget.</td></tr>
+        <tr><td><b><a href="https://www.reflexrobotics.com" target="_blank">Reflex Robotics</a></b></td><td>16. Humanoids</td><td>$7M</td><td>seed</td><td>USA</td><td>Teleop-first wheeled mobile manipulator (non-locomotion-locked) — a natural fit to graduate teleop into cloud-assisted autonomy; tiny seed budget rules out in-house research.</td></tr>
+        <tr><td><b><a href="https://www.ascento.ai/" target="_blank">Ascento</a></b></td><td>10. Security patrol</td><td>$4M</td><td>seed</td><td>Switzerland</td><td>Seed hardware-first outdoor patrol OEM with no research org; classic rent-to-ship-faster profile, capped only by the customer&#x27;s cloud/on-prem security objection.</td></tr>
+        <tr><td><b><a href="https://home.zippedi.com" target="_blank">Zippedi</a></b></td><td>9. Retail shelf-scan</td><td>$23M</td><td>Series A/B</td><td>Chile</td><td>RaaS shelf-scan operator in the funding sweet spot racing to scale across LatAm/US; slow aisle nav + planogram reasoning are cloud/hybrid-friendly.</td></tr>
+        <tr><td><b><a href="https://www.flytrex.com" target="_blank">Flytrex</a></b></td><td>18. Drones / UAVs</td><td>$60M</td><td>Series C</td><td>Israel</td><td>Scaling suburban delivery operator focused on logistics/ops, not autonomy research; connected fleet where cloud/hybrid dispatch and route planning fit.</td></tr>
+        <tr><td><b><a href="https://percepto.co/" target="_blank">Percepto</a></b></td><td>18. Drones / UAVs</td><td>$134M</td><td>Series C</td><td>USA</td><td>Drone-in-a-box inspection is inherently connected and cloud-backhauled; mission planning/re-tasking at 1-10 Hz fits hybrid, focused on industrial workflows not foundational autonomy.</td></tr>
+        <tr><td><b><a href="https://keybotic.com/" target="_blank">Keybotic</a></b></td><td>17. Quadruped inspection</td><td>$3M</td><td>acquired (small)</td><td>Spain</td><td>Tiny pure inspection-quadruped operator with zero capacity to build a planning/anomaly brain; renting a cloud layer is the only realistic path to scale autonomy.</td></tr>
+        <tr><td><b><a href="https://www.taurob.com" target="_blank">Taurob</a></b></td><td>17. Quadruped inspection</td><td><span class="dim">&mdash;</span></td><td>acquired</td><td>Austria</td><td>ATEX-certified hazardous-area inspection hardware specialist whose differentiator is the rugged certified platform, not the planning brain — a strong rent-the-brain candidate.</td></tr>
+        <tr><td><b><a href="https://www.path-robotics.com/" target="_blank">Path Robotics</a></b></td><td>1. Fixed industrial arms</td><td>$271M</td><td>Series D</td><td>USA</td><td>Entire value prop is weld-seam reasoning/path planning layered on third-party FANUC arms; borderline given its scale, but a stronger cloud planning brain could accelerate roadmap.</td></tr>
+        <tr><td><b><a href="https://www.yarbo.com" target="_blank">Yarbo</a></b></td><td>19. Consumer home (commercial/outdoor edge)</td><td>$30M</td><td>Series B</td><td>USA</td><td>Hardware-first modular outdoor-yard platform at Series B with hard multi-module RTK/vision planning and no frontier research org; speed-to-autonomy pressure favors renting.</td></tr>
       </tbody>
     </table>
     <p><b>Where to hunt — segments ranked.</b></p>
@@ -415,7 +422,7 @@ flowchart TB
   </section>
 
   <section>
-    <h2>Who's already doing this</h2>
+    <h2 id="competitors"><a class="hself" href="#competitors">Who's already doing this</a><a class="hlink" href="#competitors" aria-hidden="true">#</a></h2>
     <p class="note">The companies already in or adjacent to this space, grouped by which layer they sell.</p>
 <table>
       <thead><tr><th>Company</th><th>Layer</th><th>Stage / funding</th><th>Traction</th></tr></thead>
@@ -438,7 +445,7 @@ flowchart TB
     </table>  </section>
 
   <section>
-    <h2>Reference — every term and decision point</h2>
+    <h2 id="glossary"><a class="hself" href="#glossary">Reference — every term and decision point</a><a class="hlink" href="#glossary" aria-hidden="true">#</a></h2>
     <p class="note">Definitions for everything on this page, with the numbers and sources behind them.</p>
 <table>
       <thead><tr><th>Term</th><th>Definition</th><th>Source</th></tr></thead>
@@ -458,7 +465,7 @@ flowchart TB
     </table>  </section>
 
   <section>
-    <h2>Reference — how a robot's needs change over time</h2>
+    <h2 id="maturity"><a class="hself" href="#maturity">Reference — how a robot's needs change over time</a><a class="hlink" href="#maturity" aria-hidden="true">#</a></h2>
     <p class="note">A placement is never permanent. A robot program moves through stages, and specific events push its AI from the cloud toward the robot (or back). First, the stages:</p>
 <table>
       <thead><tr><th>Stage</th><th>Quantified signal (2026)</th><th>Bias</th></tr></thead>
@@ -487,7 +494,7 @@ flowchart TB
     </table>  </section>
 
   <section>
-    <h2>Company directory — the full census, by segment</h2>
+    <h2 id="directory"><a class="hself" href="#directory">Company directory — the full census, by segment</a><a class="hlink" href="#directory" aria-hidden="true">#</a></h2>
     <p class="note">The complete 3074-placement census (May&#8201;2026), grouped by segment then by region — what each company does, HQ country, total disclosed funding, stage and founding year (researched per-company; <span class="dim">&mdash;</span> = undisclosed). Companies on the ICP shortlist (see <i>&ldquo;Who would actually buy it?&rdquo;</i>) are tagged <b class="icp">ICP target</b>.</p>
     <h3 class="dseg" id="dir-1">1. Fixed industrial arms <span class="hq">(111)</span></h3>
     <table class="dirtbl"><thead><tr><th>Company</th><th>What it does</th><th>HQ</th><th>Funding</th><th>Stage</th><th>Founded</th><th>Site</th></tr></thead><tbody>
